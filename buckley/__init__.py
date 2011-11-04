@@ -4,7 +4,11 @@
 import os
 import sketch
 import logging
-import conf
+
+try:
+  import conf
+except ImportError:
+  conf = {}
 
 from .reqhandlers import BaseController, AdminController
 from .routes import routes
