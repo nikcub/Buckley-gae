@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ buckley.title }}{% endblock %}</title>
+<meta name="application-name" content="buckley">
+<meta name="author" value="Nik Cubrilovic">
+<meta name="description" value="New Web Order - A blog by Nik Cubrilovic">
+<meta name="generator" value="Buckley v0.1">
+<meta name="source" value="buckley.template.{{ src }}">	
+<link id="css-core" rel="stylesheet" href="http://{{ static_host }}/css/{{ css_file }}" type="text/css">
+<link id="feed-atom" rel="alternate" href="http://nikcub.appspot.com/feed" type="application/atom+xml" title="Nik Cubrilovic">
+</head>
+<body>
+<div class="topbar"> 
+<div class="fill"> 
+<div class="container"> 
+<h3>
+<a href="/">
+{{ buckley.title }}</a>
+</h3> 
+<ul> 
+	{% if admin %}<li><a href="/admin">Admin</a></li>{% endif %}
+	<li {% if tab_blog %}class="active"{% endif %}><a href="/">Blog</a></li> 
+	<li {% if tab_archive %}class="active"{% endif %}><a href="/archive">Archive</a></li>
+	<li {% if tab_projects %}class="active"{% endif %}><a href="/projects">Projects</a></li> 
+	<li {% if tab_contact %}class="active"{% endif %}><a href="/contact">Contact</a></li>
+	<li {% if tab_about %}class="active"{% endif %}><a href="/about">About</a></li>
+</ul> 
+</div> 
+</div> 
+</div>
+<div class="container">
+<div class="row">
+<div class="span11 columns">
+{% block content %}{% endblock %}
+</div>
+<div class="span3 columns">
+	<h5>A blog by</h5>
+<h5>Nik Cubrilovic</h5>
+<p><span class="icon_nik"></p>
+<p><i> Entrepreneur, hacker and writer <a href="/about">about</a></i></p>
+<ul class="details">
+	<li><a href="http://twitter.com/nikcub" alt="Nik Cubrilovic - Twitter"><span class="icon twitter"/><span class="txt">Twitter</span></a></li>
+	<li><a href="https://plus.google.com/105854725972317368943" alt="Nik Cubrilovic - Google+"><span class="icon gplus"/><span class="txt">Google+</span></a></li>
+	<li><a href="http://nikcub.appspot.com/feed" alt="Nik Cubrilovic - News Feed"><span class="icon feed"/><span class="txt">Feed</span></a></li>
+	<li><a href="mailto:nikcub@gmail.com" alt="Nik Cubrilovic - Email"><span class="icon gmail"/><span class="txt">Email</span></a></li>
+	<li><a href="http://bitbucket.org/nik" alt="Nik Cubrilovic - BitBucket"><span class="icon bitbucket"/><span class="txt">Bitbucket</span></a></li>
+	<li><a href="http://github.com/nikcub" alt="Nik Cubrilovic - GitHub"><span class="icon github"/><span class="txt">Github</span></a></li>
+</ul>
+
+	<h5>Pages</h5>
+	<p><a href="/about">About</a></p>
+	<p><a href="/consulting">Consulting</a></p>
+	
+<div class="alert-message warning">
+	<h5>Tips and Contact</h5>
+	<p>If you have any tips or information about privacy, security or tech related please contact me, anonymity assured</p>
+	<p><a href="/contact">Contact and Tips</a></p>
+</div>
+{{ most_recent }}
+</div>
+</div>
+</div>
+<div class="container">
+<footer>
+<p>
+<a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" height="15" width="80"/></a>
+| &copy; 2011 Nik Cubrilovic | <a href="{{ login }}" alt="login" rel="nofollow">п</a></p>
+</footer>
+</div>
+</body>
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-19221650-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+{% block scripts %}{% endblock %}
+</html>

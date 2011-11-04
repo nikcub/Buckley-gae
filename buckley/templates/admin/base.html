@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}Buckley >> Admin{% endblock %}</title>
+	<base href=".">
+	<meta name="application-name" content="">
+	<meta name="author" value="Nik Cubrilovic">
+	<meta name="description" value="Blog of Nik Cubrilovic">
+	<meta name="generator" value="Unicorn v0.1">
+	<link id="css-reset" rel="stylesheet" href="/css/admin.css?001" type="text/css">
+	{{ javascripts }}
+</head>
+<body class="admin">
+<div class="topbar"> 
+<div class="fill darkblue"> 
+	<div class="container">
+		<h3><a href="/">Buckley Admin</a></h3> 
+		<ul class="nav">
+			<li classe="active"><a href="/admin">Settings</a></li>
+			<li><a href="/admin/posts">Posts</a></li>
+			<li><a href="/admin/pages">Pages</a></li>
+			<li><a href="/admin/comments">Comments</a></li>
+			<li><a href="/admin/cache">Cache</a></li>
+		</ul>
+		<ul class="nav pull-right">
+			<li class="dropdown pull-right" data-dropdown="dropdown" style="float: right;">
+				<a href="#" class="dropdown-toggle">Account</a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Account</a></li>
+					<li class="divider"></li>
+					<li><a href="{{ logout }}">Logout</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>
+</div>
+</div>
+<div class="container">
+	<div class="content">
+	{% block content %}{% endblock %}
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ buckley.title }}{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+	{% if loop.first %}
+	<article> 
+		<header> 
+			<time datetime="{{ post.pubdate|tformat("Y-m-d") }}" pubdate>{{ post.pubdate|tformat("l, jS F Y") }}</time> 
+			<h1> 
+				<a href="/{{ post.stub }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
+			</h1> 
+		</header>
+		<p>{{ post.content_html }}</p>
+	</article>
+	<article><h3>Older Posts</h3></article>
+	{% else %}
+	<article> 
+		<header> 
+			<time datetime="{{ post.pubdate|tformat("Y-m-d") }}" pubdate>{{ post.pubdate|timesince }} ago</time> - 
+			<b> 
+				<a href="/{{ post.stub }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
+			</b> 
+		</header>
+	</article>
+	{% endif %}
+{% endfor %}
+{% endblock %}

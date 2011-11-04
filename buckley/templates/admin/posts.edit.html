@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} >> Admin >> Edit Post{% endblock %}
+
+{% block content %}
+{% if post %}
+	<div class="page-header">
+		<h1>Edit {{ post_type|capitalize }} <small>{{ post.title|e }}</small></h2>
+	</div>
+	<div class="row">
+		<div class="span10">
+			<form method="post" action="/admin/posts/edit/{{ post.key() }}" id="admin_edit" class="form-stacked">
+				<fieldset>
+					<div class="clearfix">
+						<label for="title">Title</label>
+						<div class="input">
+							<input class="" id="title" name="title" size="50" type="text" value="{{ post.title|e }}">
+						</div>
+					</div>
+					<div class="clearfix">
+						<label for="stub">Stub</label>
+						<div class="input">
+							<span class="add-on">http://nikcub.appspot.com/</span>
+							<input class="" id="stub" name="stub" size="30" type="text" value="{{ post.stub }}">
+						</div>
+					</div>
+					<div class="clearfix">
+						<label for="content">Content</label>
+						<div class="input">
+							<textarea class="xxlarge" name="textarea" id="content" rows="10">{{ post.content }}</textarea>
+						</div>
+					</div>
+					<div class="actions">
+						<input type="submit" class="btn" name="action" id="btn_save" value="Save">
+						<input type="submit" class="btn primary" name="action" value="Publish">
+						<input type="reset" class="btn danger pull-right" value="Cancel">
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<div id="sidebar">
+			<h3>Posts</h3>
+		</div>
+	</div>
+{% else %}
+	<h1>Post Not Found</h1>
+{% endif %}
+{% endblock %}

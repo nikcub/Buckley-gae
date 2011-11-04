@@ -1,0 +1,133 @@
+
+// Links
+@linkColor:         #0069d6;
+@linkColorHover:    darken(@linkColor, 15);
+
+// Grays
+@black:             #000;
+@grayDark:          lighten(@black, 25%);
+@gray:              lighten(@black, 50%);
+@grayLight:         lighten(@black, 75%);
+@grayLighter:       lighten(@black, 90%);
+@white:             #fff;
+
+// Accent Colors
+@blue:              #049CDB;
+@blueDark:          #0064CD;
+@green:             #46a546;
+@red:               #9d261d;
+@yellow:            #ffc40d;
+@orange:            #f89406;
+@pink:              #c3325f;
+@purple:            #7a43b6;
+
+// Baseline grid
+@basefont:          11px;
+@baseline:          14px;
+
+// Griditude
+// Modify the grid styles in mixins.less
+@gridColumns:       16;
+@gridColumnWidth:   40px;
+@gridGutterWidth:   20px;
+@extraSpace:        (@gridGutterWidth * 2); // For our grid calculations
+@siteWidth:         (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
+
+// Color Scheme
+// Use this to roll your own color schemes if you like (unused by Bootstrap by default)
+@baseColor:         @blue;                  // Set a base color
+@complement:        spin(@baseColor, 180);  // Determine a complementary color
+@split1:            spin(@baseColor, 158);  // Split complements
+@split2:            spin(@baseColor, -158);
+@triad1:            spin(@baseColor, 135);  // Triads colors
+@triad2:            spin(@baseColor, -135);
+@tetra1:            spin(@baseColor, 90);   // Tetra colors
+@tetra2:            spin(@baseColor, -90);
+@analog1:           spin(@baseColor, 22);   // Analogs colors
+@analog2:           spin(@baseColor, -22);
+
+// CSS Reset
+@import "bootstrap/reset.less";
+
+// Core variables and mixins
+@import "bootstrap/mixins.less";
+
+// Grid system and page structure
+@import "bootstrap/scaffolding.less";
+
+// Styled patterns and elements
+@import "bootstrap/type.less";
+@import "bootstrap/forms.less";
+@import "bootstrap/tables.less";
+@import "bootstrap/patterns.less";
+
+
+body { 
+  padding-top: 45px; 
+  margin-bottom: 40px; 
+/*  color: #333;*/
+}
+h3 > a > img { 
+  height: 32px; 
+  width: 32px;
+}
+article > header > h1 > a {
+  color: black;
+}
+blockquote > p { margin-bottom: 11px;}
+.screenshot { width: 600px; border: 2px solid silver;}
+
+.details {
+	list-style: none;
+	margin-left: 0px;
+	padding-left: 0px;
+}
+.details > li {
+	float: left;
+	width: 100%;
+	height: 32px;
+	margin-bottom: 4px;
+}
+.details > li span.icon {
+	background-image: url('/img/sprites.png');
+	float: left;
+	width: 32px;
+	height: 32px;
+}
+.details > li a,
+.details > li a:hover,
+.details > li a:visited {
+	text-decoration: none;
+}
+.details > li span.bitbucket {
+	background-position: 0px 0px;
+}
+.details > li span.github {
+	background-position: 0px -32px;
+}
+.details > li span.gmail {
+	background-position: 0px -64px;
+}
+.details > li span.gplus {
+	background-position: 0px -96px;
+}
+.details > li span.feed {
+	background-position: 0px -128px;
+}
+.details > li span.twitter {
+	background-position: 0px -160px;
+}
+span.icon_nik {
+	float: left;
+	background-image: url('/img/sprites.png');
+	background-position: 0px -192px;
+	width: 125px;
+	height: 125px;
+	margin-bottom: 8px;
+}
+.details > li span.txt {
+	float: left;
+	margin-left: 32px;
+	line-height: 32px;
+	padding-left: 8px;
+}
