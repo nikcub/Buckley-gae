@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ buckley.title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
 {% for post in posts %}
@@ -9,10 +9,10 @@
 		<header> 
 			<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|date("l, jS F Y") }}</time> 
 			<h1> 
-				<a href="/{{ post.stub }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
+				<a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
 			</h1> 
 		</header>
-		<p>{{ post.content_html }}</p>
+		{{ post.get_excerpt }}
 	</article>
 	<article><h3>Older Posts</h3></article>
 	{% else %}
@@ -20,9 +20,10 @@
 		<header> 
 			<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|timesince }} ago</time> - 
 			<b> 
-				<a href="/{{ post.stub }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
+				<a href="{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
 			</b> 
 		</header>
+		{{ post.get_excerpt }}
 	</article>
 	{% endif %}
 {% endfor %}

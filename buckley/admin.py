@@ -10,21 +10,29 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from buckley.models import Post
 
+from sketch.vendor.markdown import markdown
+
 class Index(buckley.AdminController):
   def get(self, path = None):
     return self.redirect('/admin/settings')
 
-
 class Settings(buckley.AdminController):
   def get(self, val=None):
-    settings = self.config
+    logging.info(self.config)
     self.render('settings', {
-      'settings': settings
+      'settings': self.config
     })
+
   def post(self):
     self.render_error('not yet implemented')
 
 class Posts(buckley.AdminController):
+  def extract_excerpt(self, content):
+    pos = content.find("--")
+    if pos < 1:
+      return None
+    return content[:pos]
+
   def get(self, action=None, key=None):
     if action == 'edit' and key:
       posts = Post.get_single_by_key(key)
@@ -32,41 +40,66 @@ class Posts(buckley.AdminController):
         'post': posts,
         'post_type': 'post'
       })
+    elif action == 'new':
+      self.render('posts.edit', {
+        'post': {}
+      })
     else:
-      posts = Post.get_all(num = 100)
+      posts = Post.get_all(num=100)
       self.render('posts', {
         'posts': posts,
         'post_type': 'post'
       })
 
-  def post(self, action = False, key = False):
+  def post(self, action=False, key=False):    
+    title = self.request.get('title', "").encode('ascii', 'ignore')
+    content = self.request.get('content', "").encode('ascii', 'ignore')
+    
+    if not title or not content:
+      return self.redirect_back()
+
+    try:
+      excerpt = self.extract_excerpt(content)
+      excerpt_html = markdown(excerpt)
+      html = markdown(content.replace("--", '', 1))
+    except Exception, e:
+      logging.exception(e)
+      raise e
+      
     if action == 'edit' and key:
       post = Post.get_single_by_key(key)
       if not post:
         raise sketch.exception.NotFound()
-      z = post.update(self.get_param_dict())
+      
+      post.title = title
+      post.excerpt = excerpt
+      post.excerpt_html = excerpt_html      
+      post.content = content
+      post.content_html = html
+      
       if self.request.get('action') == 'publish':
         post.publish()
-      if z:
-        self.redirect(self.request.url + '?success')
+        
+      if post.put():
+        self.redirect('/admin/posts/edit/%s' % post.key() + '?success')
       else:
         raise sketch.exception.NotFound()
-    else:
-      title = self.request.get('title')
-      content = self.request.get('content')
+    else:      
       categories = [db.Category('none')]
-      excerpt = content[:250]
+      author = users.get_current_user()
 
       post = Post(
+        author = author,
         title = title,
         excerpt = excerpt,
+        excerpt_html = excerpt_html,
         content = content,
+        content_html = html,
+        post_type = 'post',
         status = "draft",
         categories = categories,
-        author = users.get_current_user(),
-        post_type = 'post',
-        stub = self.slugify(title),
-        pubdate = datetime.datetime.now()
+        featured = False,
+        stub = self.slugify(title)
       )
       r = post.put()
       self.redirect('/admin/posts/edit/' + str(r))
@@ -75,14 +108,13 @@ class Pages(buckley.AdminController):
   def get(self, path = None):
     return self.render('pages', {})
 
+
 class Comments(buckley.AdminController):
   def get(self, path = None):
     return self.render('comments', {}) 
 
 
-
-class Cache(buckley.AdminController):
-  
+class Cache(buckley.AdminController):  
   def render_cache(self, template_name, vars):
     template_path = os.path.join(os.path.dirname(__file__), '..', 'templates', template_name + '.html')
     content = template.render(template_path, self.get_template_vars(vars))
@@ -208,3 +240,15 @@ class Cache(buckley.AdminController):
       r = self.set_memcache(posts)
       return self.redirect('/admin/cache?rs_mem=' + str(r))
     return self.redirect('/admin/cache?')
+
+class CacheView(buckley.AdminController):
+  def get(self, key):
+    pkey = "%s.%s" % ('post', key)
+    r = memcache.get(pkey)
+    if r:
+      self.response.clear()
+      self.response.set_status(200)
+      self.response.out.write(r)
+      return None
+    else:
+      return self.render_error("not found")

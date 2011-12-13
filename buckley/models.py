@@ -1,3 +1,31 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# vim:ts=2:sw=2:expandtab
+#
+# Copyright (c) 2010-2011, Nik Cubrilovic. All rights reserved.
+#
+# <nikcub@gmail.com> <http://nikcub.appspot.com>  
+#
+# Licensed under a BSD license. You may obtain a copy of the License at
+#
+#     http://nikcub.appspot.com/bsd-license
+#
+"""
+  buckley - models.py
+
+  desc
+
+  This source file is subject to the new BSD license that is bundled with this 
+  package in the file LICENSE.txt. The license is also available online at the 
+  URL: <http://nikcub.appspot.com/bsd-license.txt>
+
+  :copyright: Copyright (C) 2011 Nik Cubrilovic and others, see AUTHORS
+  :license: new BSD, see LICENSE for more details.
+"""
+
+__version__ = '0.0.1'
+__author__ = 'Nik Cubrilovic <nikcub@gmail.com>'
+
 import sys
 import datetime
 import logging
@@ -11,56 +39,34 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 class Post(sketch.db.Model):
   author = db.UserProperty()
   title = db.StringProperty(required=True)
-  excerpt = db.StringProperty(multiline=True)
+  excerpt = db.TextProperty()
+  excerpt_html = db.TextProperty()
   content = db.TextProperty()
-  content_html = sketch.db.HtmlFromMarkdownProperty(source=content, default=None)
-  post_type = db.StringProperty(choices = set(['post', 'page']))
-  status = db.StringProperty(required = True, choices = set(['draft', 'scheduled', 'published']))
+  content_html = db.TextProperty()
+  post_type = db.StringProperty(choices = set(['post', 'status', 'page']))
+  status = db.StringProperty(required=True, choices = set(['draft', 'scheduled', 'published']))
   categories = db.ListProperty(db.Category)
-  new_stub = sketch.db.StubFromTitleProperty(source=title, default=None)
   stub = db.StringProperty()
   permalink = db.StringProperty()
   featured = db.BooleanProperty()
   pubdate = db.DateTimeProperty()
-  
-  def create_new(title, content, categories = []):
-    
-    cats = []
-    for category in categories:
-      cats.append(db.Category(category))
-      
-    post = Post(
-      title = title,
-      excerpt = content[:250],
-      content = content, 
-      status = "draft",
-      categories = cats,
-      stub = self.get_stub(title),
-      author = users.get_current_user(), 
-      post_type = "post",
-      pubdate = datetime.datetime.now()
-    )
-    
-    try:
-      post.put()
-    except CapabilityDisabledError:
-      return false
-    return true 
-  
-  def update(self, values):
-    for arg in values:
-      if hasattr(self, arg) and values[arg] != getattr(self, arg):
-        setattr(self, arg, values[arg])
-    try:
-      z = self.put()
-      return True
-    except CapabilityDisabledError:
-      logging.error('yep')
-  
+
+
+  @property
+  def url(self):
+    return "/posts/%s" % self.stub
+
   def publish(self):
     self.status = 'published'
     self.pubdate = datetime.datetime.now()
-    self.put()
+  
+  @property
+  def get_excerpt(self, morelink=None):
+    if not morelink:
+      morelink = "Read More >>"
+    if self.excerpt_html:
+      return self.excerpt_html + '<a href="%s">%s</a>' % (self.url, morelink)
+    return self.content_html
 
   @classmethod
   def get_posts_published(self, num = 5):

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{% endblock %}</title>
+	<base href=".">
+	<meta name="application-name" content="">
+	<meta name="author" value="Nik Cubrilovic">
+	<meta name="description" value="">
+	<meta name="generator" value="Sketch v0.1">
+	<link id="css-reset" rel="stylesheet" href="/css/reset.css?001" type="text/css">
+	<link id="css-core" rel="stylesheet" href="/css/default.css?001" type="text/css">
+</head>
+<body>
+<div id="header">
+    <h1><a href="/">Sketch Error</a></h1>      
+</div>
+<div id="wrap">
+<div id="sidebar">
+{% block sidebar %}{% endblock %}	
+</div>
+<div id="main">
+{% block content %}{% endblock %}
+</div>
+</div>
+</body>
+</html>

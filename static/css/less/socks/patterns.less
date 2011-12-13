@@ -25,7 +25,7 @@
   // Hover and active states
   // h3 for backwards compatibility
   h3 a:hover,
-  .brand a:hover,
+  .brand:hover,
   ul .active > a {
     background-color: #333;
     background-color: rgba(255,255,255,.05);
@@ -115,35 +115,12 @@
 // For backwards compatibility, include .topbar .fill
 .topbar-inner,
 .topbar .fill {
-
-}
-
-.topbar .fill.black {
   background-color: #222;
   #gradient > .vertical(#333, #222);
   @shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
-  .box-shadow(@shadow);  
+  .box-shadow(@shadow);
 }
 
-.topbar .fill.lightblue {
-  .gradientBar(#5bc0de, #339bb9);
-}
-
-.topbar .fill.darkblue_old {
-  .gradientBar(#425865, #212d39);
-  background-color: #333;
-  #gradient > .vertical(#425865, #212d39);
-  @shadow: 0 1px 3px rgba(0,0,0,.25), inset 0 -1px 0 rgba(0,0,0,.1);
-  .box-shadow(@shadow);  
-}
-
-.topbar .fill.darkblue {
-  .gradientBar(#55626b, darken(#55626b, 30));
-}
-
-.topbar .fill.white {
-/*  #gradient > .vertical(#fff, #aaa)*/
-}
 
 // NAVIGATION
 // ----------
@@ -301,7 +278,8 @@ a.menu:after,
   }
 }
 
-.topbar .dropdown-menu, .dropdown-menu {
+.topbar .dropdown-menu, 
+.dropdown-menu {
   // Links within the dropdown menu
   a {
     display: block;
@@ -312,7 +290,8 @@ a.menu:after,
     color: @gray;
     text-shadow: 0 1px 0 @white;
     // Hover state
-    &:hover {
+    &:hover,
+    &.hover {
       #gradient > .vertical(#eeeeee, #dddddd);
       color: @grayDark;
       text-decoration: none;
@@ -342,10 +321,13 @@ a.menu:after,
 
 
 // Tabs and Pills
+// ----
+
+// Common
 .tabs,
 .pills,
 .menu {
-  margin: 0 0 20px;
+  margin: 0 0 @baseline;
   padding: 0;
   list-style: none;
   .clearfix();
@@ -357,18 +339,18 @@ a.menu:after,
   }
 }
 
-// Basic Tabs
+// Tabs
 .tabs {
-  float: left;
-  width: 100%;
-  border-bottom: 1px solid #ddd;
+  border-color: #ddd;
+  border-style: solid;
+  border-width: 0 0 1px;
   > li {
     position: relative; // For the dropdowns mostly
-    top: 1px;
+    margin-bottom: -1px;
     > a {
       padding: 0 15px;
       margin-right: 2px;
-      line-height: @baseline * 2;
+      line-height: (@baseline * 2) - 2;
       border: 1px solid transparent;
       .border-radius(4px 4px 0 0);
       &:hover {
@@ -377,13 +359,20 @@ a.menu:after,
         border-color: #eee #eee #ddd;
       }
     }
-    &.active > a {
-      color: @gray;
-      background-color: @white;
-      border: 1px solid #ddd;
-      border-bottom-color: transparent;
-    }
   }
+  // Active state, and it's :hover to override normal :hover
+  .active > a,
+  .active > a:hover {
+    color: @gray;
+    background-color: @white;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+    cursor: default;
+  }
+}
+
+// Dropdowns in tabs
+.tabs {
   // first one for backwards compatibility
   .menu-dropdown,
   .dropdown-menu {
@@ -409,64 +398,27 @@ a.menu:after,
     border-top-color: #555;
   }
 }
-.tab-content {
-  clear: both;
-}
 
 // Basic pill nav
 .pills {
   a {
-      margin: 5px 3px 5px 0;
+    margin: 5px 3px 5px 0;
     padding: 0 15px;
-    text-shadow: 0 1px 1px @white;
     line-height: 30px;
+    text-shadow: 0 1px 1px @white;
     .border-radius(15px);
     &:hover {
-      background: @linkColorHover;
       color: @white;
       text-decoration: none;
       text-shadow: 0 1px 1px rgba(0,0,0,.25);
+      background-color: @linkColorHover;
     }
   }
   .active a {
-    background: @linkColor;
     color: @white;
     text-shadow: 0 1px 1px rgba(0,0,0,.25);
+    background-color: @linkColor;
   }
-}
-
-.menu {
-  border-bottom: 1px solid #ddd;
-  margin: 0px 20px 0px 20px;
-/*  width:100%;*/
-/*  margin: 7px 20px 3px 20px;*/
-  a {
-    color: #666;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 5px 3px 5px 0;
-    padding: 0 5px;
-    text-shadow: 0 1px 1px @white;
-    line-height: 18px;
-/*    .border-radius(15px);*/
-    &:hover {
-/*      background: @linkColorHover;*/
-/*      color: @white;*/
-      text-decoration: none;
-      text-shadow: 0 1px 1px rgba(0,0,0,.25);
-    }
-  }
-  .active a {
-    background: @linkColor;
-    color: @white;
-    text-shadow: 0 1px 1px rgba(0,0,0,.25);
-  }
-  
-  a.flat {
-    padding: 1px 15px 1px 15px;
-  }
-  &.flat:hover {
-    border: 1px solid #666;
-  }  
 }
 
 .tab-content > *,
@@ -563,6 +515,11 @@ footer {
   &.info:hover {
     color: @white
   }
+  // Sets the close button to the middle of message
+  .close{
+    font-family: Arial, sans-serif;
+    line-height: 18px;
+  }  
   // Danger and error appear as red
   &.danger,
   &.error {
@@ -616,7 +573,8 @@ footer {
   .transition(.1s linear all);
 
   // Active and Disabled states
-  &:active {
+  &:active 
+  {
     @shadow: inset 0 2px 4px rgba(0,0,0,.25), 0 1px 2px rgba(0,0,0,.05);
     .box-shadow(@shadow);
   }

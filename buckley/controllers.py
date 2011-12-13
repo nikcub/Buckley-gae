@@ -10,7 +10,7 @@ from buckley.models import Post
 class Index(buckley.BaseController):
   def get(self, path=None):
     cache = self.request.get('cache', False)
-    defaults = [None, '', 'index', 'index.html', 'index.php']
+    defaults = [None]
 
     if not cache:
       page_cache = memcache.get('post.%s' % path)
@@ -35,6 +35,13 @@ class Index(buckley.BaseController):
         'tab_blog': True,
         'src': src,
       })
+    elif path == "archive":
+      posts, src = Post.get_posts_published_cached(5, cache)
+      return self.render('archive', {
+        'posts': posts,
+        'tab_blog': True,
+        'src': src,
+      })
     elif Post.is_key(path):
       posts = Post.get_single_by_key(path)
       return self.render('single', {
@@ -45,7 +52,35 @@ class Index(buckley.BaseController):
     raise NotFound()
 
 
-class Posts(sketch.RestController):
-  model = Post
-  url = '/data/post'
+class Posts(sketch.BaseController):
+  def get(self, key=None):
+    try:
+      if key:
+        posts = Post.get_by_key(key)
+      else:
+        posts = Post.get_all()
+    except db.BadKeyError, e:
+      return self.render_json(e, 404)
+    except Exception, e:
+      logging.exception(e)
+      return self.render_json(e, 500)
+    
+    return self.render_json(posts, 200)
   
+  def post(self, key=None):
+    pass
+  
+  def put(self, key=None):
+    if not key:
+      raise sketch.exception.NotFound()
+    
+    entry = db.get(db.key(key))
+    if not entry:
+      raise sketch.exception.NotFound()
+    
+    for field, value in self.request.get_all():
+      logging.info("%s => %s" % (field, value))
+    
+  
+  def delete(self, key=None):
+    pass
