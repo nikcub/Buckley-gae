@@ -20,24 +20,24 @@ Get the App Engine SDK:
 
 Clone this code out (or fork and then clone):
 
-  $ git clone git://github.com/nikcub/Buckley.git
+    $ git clone git://github.com/nikcub/Buckley.git
 
 Create the local datastore files, for eg.
 
-  $ mkdir .data
-  $ touch .data/buckley.datastore
+    $ mkdir .data
+    $ touch .data/buckley.datastore
 
 This will help you retain a local copy of all your data. (I actually write posts locally and then deploy)
 
 Start the dev server using the following options:
 
-  $ dev_appserver.py -p 9090 --use_sqlite --datastore_path=.data/buckley.datastore --disable_static_caching --skip_sdk_update_check .
+    $ dev_appserver.py -p 9090 --use_sqlite --datastore_path=.data/buckley.datastore --disable_static_caching --skip_sdk_update_check .
 
 The options tell the server to use sqlite and to use the local datastore. This means the datastore will be persistent between restarts and you won't lose your data. I recommend you keep a backup of the datastore file.
 
 Or, just deploy and run:
 
-  $ appcfg.py update -A yourappengineid .
+    $ appcfg.py update -A yourappengineid .
 
 
 ## Dependancies
@@ -54,7 +54,7 @@ Edit the template at ./templates/ or make your own copy in that dir (and update 
 
 To run the app, cd in and run:
 
-  dev_appserver.py .
+    dev_appserver.py .
 
 To deploy, use appcfg.py or the GUI that comes with Google App Engine.
 
@@ -91,10 +91,11 @@ This should be before the default route.
 
 ## Todo
 
-@TODO	add a sidebar & cleanup style
-@TODO	support for Atom feed
 @TODO	categories
+
 @TODO	export / import
+
 @TODO	comments / users / moderation
-@TODO 	multi templates
+
 @TODO	support multiple URLs (ie. stub changed) with list of 'old' to match and redirect
+
