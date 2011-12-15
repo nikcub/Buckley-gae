@@ -134,6 +134,10 @@ class Application(object):
         self.config.set_enviro = env
         enviro_set = True
     
+    if not enviro_set:
+      logging.error("Could not set environ: %s %s" % (hostname, self.config.appid))
+      self.config.set_enviro = ''
+
     # logging.info(self.config.enviro)
     # logging.info("%s - %s - %s" % (hostname, id_gae, host_gae))
     # self.debug = self.config.get('debug', debug)
