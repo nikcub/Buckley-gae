@@ -57,10 +57,13 @@ builtins:
 skip_files:
 - ^(.*/)?app\.yaml
 - ^(.*/)?index\.yaml
+- ^(.*/)?.*\.sh
 - ^(.*/)?.*\.py[co]
 - ^(.*/)?.*/git/.*
 - ^(.*/)?.*/svn/.*
 - ^(.*/)?\..*
+- ^(.*/)?Makefile$
 - ^(.*/)?README$
 - ^(.*/)?.*\.bak$
+- ^(.*/)?.*\.backup$
 
