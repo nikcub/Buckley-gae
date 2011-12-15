@@ -1,16 +1,24 @@
 # Buckley
 
-A blogging tool built for Google App Engine with the goal of high performance and flexibility
+A blogging tool built for Google App Engine with the goal of social integration, high performance and flexibility
+
+Blogging rebooted for 2011
+
+**NOTE: This is an alpha release for developers**
+
+There will eventually be a one-click auto deploy and install, but it isn't there yet
 
 ## Features
 
- * Support for posts and pages
- * SEO-friendly stub URLs
+ * Statuses and posts
+ * Facebook + twitter integration
+ * Support pages
  * Simple and extensible template system
  * Simple default template you can use as a base
  * Plugin system that is easy to use
- * Support for JSON and XML output 
- * Heavy caching with both memcache and static pages
+ * Support for JSON and XML output via the API
+ * Static output
+ * Auto caching for traffic spikes 
 
 ## Install
 
