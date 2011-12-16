@@ -1,10 +1,10 @@
 import logging
 import re
-from random import choice
-
 import sketch
 
+from random import choice
 from google.appengine.api import users    
+from buckley.models import Post
     
 class BaseController(sketch.BaseController):
   template_theme = 'default'
@@ -18,38 +18,59 @@ class BaseController(sketch.BaseController):
   }
   styles = ['/css/site.css?001']
   
-  def template_wrapper(self, variables = {}):
+  def get_static_resources(self):    
     host_full = self.request.environ['HTTP_HOST'] or 'localhost'
     hostname = host_full.split(':')[0]
-    
+
     if self.is_dev:
       stat_hosts = [host_full]
-      css_file = 'site.css'
+      css_file = '/css/site.css'
     else:
       stat_hosts = ['nik-cubrilovic.appspot.com']
-      css_file = 'site.min.css'
-
-    pages = [
-      ('about', '/about'),
-      ('consulting', '/consulting')
-    ]
+      css_file = '/css/site.min.css'
     
-    additional = {
-      'pages': pages,
+    static = {
+      'host': choice(stat_hosts),
+      'css_file': css_file,
+      'css_ver': '26'
+    }
+    
+    return static
+      
+  def get_buckley_conf(self):
+    buckley = {
       'title': self.config.title,
       'description': self.config.description,
+      'owner': self.config.owner,
+      'frontpage_posts': self.config.frontpage_posts,
+      'src': 'database'
+    }
+    return buckley
+  
+  def get_user_object(self):
+    user = {
       'admin': users.is_current_user_admin(),
-      'author': self.config.author,
       'user': users.get_current_user(),
       'logout': users.create_logout_url('/'),
       'login': users.create_login_url('/'),
-      'static_host': choice(stat_hosts),
-      'css_file': css_file,
-      'css_ver': '26',
-      'src': 'database',
-      # 'config': {test: 'test'},
-      # 'title': self.conf_get('title')
     }
+    return user
+
+  def template_wrapper(self, variables = {}):
+    pages = Post.get_pages_published()
+    buckley = self.get_buckley_conf()
+    user = self.get_user_object()
+    static = self.get_static_resources()
+    
+    logging.info(pages)
+    
+    additional = {
+      'buckley': buckley,
+      'pages': pages,
+      'user': user,
+      'static': static
+    }
+    
     return dict(zip(additional.keys() + variables.keys(), additional.values() + variables.values()));
 
 
