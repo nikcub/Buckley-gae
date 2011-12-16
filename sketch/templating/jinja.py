@@ -53,6 +53,7 @@ import sketch
 import logging
 
 from sketch.helpers.dateformat import *
+from sketch.exception import NotFound, Forbidden, InternalServerError
 
 try:
   from google.appengine.api import memcache as gae_memcache
@@ -68,7 +69,7 @@ except ImportError:
   except ImportError:
     logging.info('Could not import Jinja')
     logging.info(sys.path)
-    raise sketch.exception.NotFound()
+    raise NotFound('Could not import jinja2')
     
 _jinja_env = None
 _jinja_loaders = {}
