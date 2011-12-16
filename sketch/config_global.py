@@ -26,12 +26,13 @@ server_email = {
 }
 templates = {
   'app': '$app_dir/templates',
+  'site': '$site_dir/templates',
   'sketch': '$sketch_dir/templates',
 }
 enviroments = {
   'live': {
     'debug': False,
-    'hosts': ['*.appspot.com']
+    'hosts': ['buckleyapp.appspot.com', '*.appspot.com']
   },
   'staging': {
     'debug': True,
