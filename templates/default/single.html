@@ -6,11 +6,16 @@
 {% if post %}
 <article> 
 	<header> 
-		<h1>{{ post.title }}</h1>
+		<h1>{{ post.title }}</h1> 
+		{% if post.pubdate %}
 		<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|date("jS F Y") }}</time>
-			<a href="/{{ post.stub }}" rel="bookmark" title="{{ post.title }}">#</a>
+		{% endif %}
 	</header>
+	{% if post.subtitle %}
+		<div class="subtitle">{{ post.subtitle }}</div>
+	{% endif %}	
 	{{ post.content_html }}
+	<a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">#</a>
 </article>
 {% endif %}
 {% endblock %}

@@ -34,18 +34,25 @@ class Posts(buckley.AdminController):
     return content[:pos]
 
   def get(self, action=None, key=None):
-    if action == 'edit' and key:
-      posts = Post.get_single_by_key(key)
-      self.render('posts.edit', {
-        'post': posts,
-        'post_type': 'post'
-      })
-    elif action == 'new':
-      self.render('posts.edit', {
-        'post': {}
-      })
+    if action:
+      if action == 'edit' and key:
+        posts = Post.get_single_by_key(key)
+        self.render('posts.edit', {
+          'post': posts,
+          'post_type': 'post'
+        })
+      elif action == 'new':
+        self.render('posts.edit', {
+          'post': {}
+        })
+      elif action == 'publish':
+        post = Post.get_single_by_key(key)
+        post.publish()
+        return self.redirect_back()
+      else:
+        self.redirect_back()
     else:
-      posts = Post.get_all(num=100)
+      posts = Post.get_posts(num=100, cached=False)
       self.render('posts', {
         'posts': posts,
         'post_type': 'post'
@@ -53,7 +60,10 @@ class Posts(buckley.AdminController):
 
   def post(self, action=False, key=False):    
     title = self.request.get('title', "").encode('ascii', 'ignore')
+    subtitle = self.request.get('subtitle', "").encode('ascii', 'ignore')
     content = self.request.get('content', "").encode('ascii', 'ignore')
+    cached = self.request.get_checkbox('cached')
+    featured = self.request.get_checkbox('featured')
     
     if not title or not content:
       return self.redirect_back()
@@ -72,10 +82,15 @@ class Posts(buckley.AdminController):
         raise sketch.exception.NotFound()
       
       post.title = title
+      post.subtitle = subtitle
       post.excerpt = excerpt
       post.excerpt_html = excerpt_html      
       post.content = content
       post.content_html = html
+      post.featured = featured
+      post.cached = cached
+      
+      logging.info("featured: %s" % featured)
       
       if self.request.get('action') == 'publish':
         post.publish()
@@ -91,6 +106,7 @@ class Posts(buckley.AdminController):
       post = Post(
         author = author,
         title = title,
+        subtitle = subtitle,
         excerpt = excerpt,
         excerpt_html = excerpt_html,
         content = content,
@@ -98,15 +114,38 @@ class Posts(buckley.AdminController):
         post_type = 'post',
         status = "draft",
         categories = categories,
-        featured = False,
+        featured = featured,
+        cached = cached,
         stub = self.slugify(title)
       )
       r = post.put()
       self.redirect('/admin/posts/edit/' + str(r))
 
 class Pages(buckley.AdminController):
-  def get(self, path = None):
-    return self.render('pages', {})
+  def get(self, action=None, key=None):
+    if action:
+      if action == 'edit' and key:
+        page = Post.get_single_by_key(key)
+        self.render('pages.edit', {
+          'post': page,
+          'post_type': 'page'
+        })
+      elif action == 'new':
+        self.render('pages.edit', {
+          'post': {}
+        })
+      elif action == 'publish':
+        post = Post.get_single_by_key(key)
+        post.publish()
+        return self.redirect_back()
+      else:
+        self.redirect_back()
+    else:
+      posts = Post.get_pages(num=100, cached=False)
+      self.render('posts', {
+        'posts': posts,
+        'post_type': 'post'
+      })
 
 
 class Comments(buckley.AdminController):
