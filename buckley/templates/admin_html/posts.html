@@ -5,7 +5,7 @@
 {% block content %}
 <article>
 	<header>
-		<h2>{{ post_type|capitalize }} <small><a href="/admin/posts/new">New Post >></a></small></h2>
+		<h2>{{ post_type|capitalize }} <small><a href="/admin/{{ post_type }}/new">New {{ post_type|capitalize }} >></a></small></h2>
 	</header>
 	<table id="admin_posts">
 		<thead>
@@ -37,11 +37,11 @@
 					- 
 				{% endif %}
 				</td>
-				<td><a href="/admin/posts/edit/{{ post.key() }}" class="btn info">Edit</a></td>
+				<td><a href="/admin/{{ post_type }}s/edit/{{ post.key() }}" class="btn info">Edit</a></td>
 				<td><a href="{{ post.url }}" target="_new" class="btn info">View</a></td>
 				<td>
 					{% if post.status == 'draft' %}
-					<a href="/admin/posts/publish/{{ post.key() }}" class="btn success">Publish</a>
+					<a href="/admin/{{ post_type }}s/publish/{{ post.key() }}" class="btn success">Publish</a>
 					{% endif %}
 				</td>				
 		{% endfor %}

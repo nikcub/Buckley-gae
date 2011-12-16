@@ -85,7 +85,7 @@ class Post(sketch.db.Model):
 
   @classmethod
   def get_pages(self, num=100, cached=True):
-    return self.fetch_cached("select * from Post where post_type='page' order by order", num, cached)
+    return self.fetch_cached("select * from Post where post_type='page'", num, cached)
 
   @classmethod
   def get_posts(self, num=10, cached=True):
@@ -93,11 +93,19 @@ class Post(sketch.db.Model):
 
   @classmethod
   def get_pages_published(self, num=100, cached=True):
-    return self.fetch_cached("select * from Post where post_type='page' and status='published' order by order", num, cached)
+    return self.fetch_cached("select * from Post where post_type='page' and status='published'", num, cached)
 
   @classmethod
   def get_posts_published(self, num=10, cached=True):
     return self.fetch_cached("select * from Post where post_type='post' and status='published' order by pubdate DESC", num, cached)
+
+  @classmethod
+  def is_page(self, stub):
+    return self.fetch_cached("select * from Post where post_type='page' and stub='%s'" % stub)
+
+  @classmethod
+  def is_page(self, stub):
+    return self.fetch_cached("select * from Post where post_type='page' and stub='%s'" % stub)
 
   @classmethod
   def get_posts_for_month(month, year):

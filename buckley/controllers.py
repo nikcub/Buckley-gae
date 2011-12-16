@@ -8,9 +8,24 @@ from google.appengine.api import memcache
 from buckley.models import Post
 
 class Index(buckley.BaseController):
-  def get(self, path=None):
+  def get(self, path=None, page=None):
     cache = self.request.get('cache', False)
-    defaults = [None]
+    defaults = [None, '', 'index']
+
+
+    if page:
+      page = Post.is_page(page)
+      logging.info(page)
+      return self.render('page', {
+        'page': page[0]
+      })
+      
+    if path in defaults:
+      posts = Post.get_posts_published(10, cache)
+      return self.render('index', {
+        'posts': posts,
+        'tab_blog': True
+      })
 
     if not cache:
       page_cache = memcache.get('post.%s' % path)
@@ -25,13 +40,6 @@ class Index(buckley.BaseController):
       logging.info(src)
       return self.render('single', {
         'post': p[0],
-        'tab_blog': True,
-        'src': src,
-      })
-    elif path in defaults:
-      posts, src = Post.get_posts_published_cached(5, cache)
-      return self.render('index', {
-        'posts': posts,
         'tab_blog': True,
         'src': src,
       })

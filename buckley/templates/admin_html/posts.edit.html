@@ -37,19 +37,19 @@
 {% endblock %}
 
 {% block content %}
-{% if post %}
 <article>
 	<header>
-		<h2>Edit {{ post_type|capitalize }}</h2>
+		<h2>{% if post %}Edit{% else %}New{% endif %} {{ post_type|capitalize }}</h2>
 	</header>
-	<form method="post" action="/admin/posts/edit/{{ post.key() }}" id="admin_edit">
+	<form method="post" action="/admin/posts/edit/{% if post %}{{ post.key() }}{% endif %}" id="admin_edit">
 		<fieldset>
 			<div class="clearfix">
 				<label for="title">Title</label>
 				<div class="input">
-					<input type="text" name="title" class="span11" value="{{ post.title }}">
+					<input type="text" name="title" class="span11" {% if post.title %}value="{{ post.title }}"{% endif %}>
 				</div>
 			</div>
+			{% if post_type == 'post' %}
 			<div class="clearfix">
 				<label for="title">Sub-title</label>
 				<div class="input">
@@ -57,12 +57,14 @@
 				</div>
 				<p><small>All optional</small></p>
 			</div>
+			{% endif %}
 			<div class="clearfix">
 				<label for="stub">Stub</label>
 				<div class="input">
 					<input type="text" name="stub" class="span8" disabled value="{{ post.stub }}"> <a href="/posts/{{ post.key() }}">Link ></a>
 				</div>
 			</div>
+			{% if post_type == 'post' %}
 			<div class="clearfix">
 				<label for="title">Options</label>
 				<div class="input">
@@ -70,6 +72,7 @@
 					<input type="checkbox" name="cached" class="" {{ post.cached|checkbox }}> Cached
 				</div>
 			</div>
+			{% endif %}
 			<div class="span16">
 					<textarea name="content" id="postEditor" rows="20" class="span14">{{ post.content }}</textarea>
 					<div class="help_text">
@@ -86,56 +89,4 @@
 		</fieldset>
 	</form>
 </article>
-{% else %}
-<article>
-	<header>
-		<h2>New {{ post_type|capitalize }}</h2>
-	</header>
-	<form method="post" action="/admin/posts" id="admin_edit">
-		<fieldset>
-			<div class="clearfix">
-				<label for="title">Title</label>
-				<div class="input">
-					<input type="text" name="title" class="span11">
-				</div>
-			</div>
-			<div class="clearfix">
-				<label for="title">Sub-title</label>
-				<div class="input">
-					<input type="text" name="subtitle" class="span11">
-					<p><small>Optional</small></p>
-				</div>
-			</div>			
-			<div class="clearfix">
-				<label for="stub">Stub</label>
-				<div class="input">
-					<input type="text" name="stub" class="span8">
-					<p><small>Leave blank to autogenerate</small></p>
-				</div>
-			</div>
-			<div class="clearfix">
-				<label for="title">Options</label>
-				<div class="input">
-					<input type="checkbox" name="featured" class=""> Featured
-					<input type="checkbox" name="cached" class=""> Cached
-				</div>
-				<p><small>All optional</small></p>
-			</div>
-			<div class="span16">
-					<textarea name="content" id="postEditor" rows="20" class="span14"></textarea>
-					<div class="help_text">
-						<p><small>Accepts <a href="http://daringfireball.net/projects/markdown/" target="_new">Markdown</a></small></p>
-						<p><small>Mark off excerpt with <code>--</code> on a new line</small></p>
-						<p><small>Link: <code>[src](http://url)</code></small></p>
-						<p><small>Image: <code>![alt](http://url)</code></small></p>
-					</div>
-			</div>						
-			<div class="actions">
-				<button type="submit" name="action" value="save" class="btn primary">save</button>
-				<button type="submit" name="action" value="publish" class="btn success">publish</button>
-       </div>
-		</fieldset>
-	</form>
-</article>
-{% endif %}
 {% endblock %}

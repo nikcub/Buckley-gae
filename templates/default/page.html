@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ buckley.title }} - {{ page.title }}{% endblock %}
+
+{% block content %}
+{% if page %}
+<article> 
+	<header> 
+		<h1>{{ page.title }}</h1> 
+	</header>
+	{% if page.subtitle %}
+		<div class="subtitle">{{ page.subtitle }}</div>
+	{% endif %}	
+	{{ page.content_html }}
+</article>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

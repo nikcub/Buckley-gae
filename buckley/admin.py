@@ -62,10 +62,11 @@ class Posts(buckley.AdminController):
     title = self.request.get('title', "").encode('ascii', 'ignore')
     subtitle = self.request.get('subtitle', "").encode('ascii', 'ignore')
     content = self.request.get('content', "").encode('ascii', 'ignore')
+    ptype = self.request.get('ptype', "post")
     cached = self.request.get_checkbox('cached')
     featured = self.request.get_checkbox('featured')
     
-    if not title or not content:
+    if not title or not content or not ptype:
       return self.redirect_back()
 
     try:
@@ -90,13 +91,11 @@ class Posts(buckley.AdminController):
       post.featured = featured
       post.cached = cached
       
-      logging.info("featured: %s" % featured)
-      
       if self.request.get('action') == 'publish':
         post.publish()
         
       if post.put():
-        self.redirect('/admin/posts/edit/%s' % post.key() + '?success')
+        self.redirect('/admin/%s/edit/%s' % (ptype, post.key() + '?success'))
       else:
         raise sketch.exception.NotFound()
     else:      
@@ -111,7 +110,7 @@ class Posts(buckley.AdminController):
         excerpt_html = excerpt_html,
         content = content,
         content_html = html,
-        post_type = 'post',
+        post_type = ptype,
         status = "draft",
         categories = categories,
         featured = featured,
@@ -119,20 +118,21 @@ class Posts(buckley.AdminController):
         stub = self.slugify(title)
       )
       r = post.put()
-      self.redirect('/admin/posts/edit/' + str(r))
+      self.redirect('/admin/%s/edit/%s' % (ptype, str(r)))
 
 class Pages(buckley.AdminController):
   def get(self, action=None, key=None):
     if action:
       if action == 'edit' and key:
         page = Post.get_single_by_key(key)
-        self.render('pages.edit', {
+        self.render('posts.edit', {
           'post': page,
           'post_type': 'page'
         })
       elif action == 'new':
-        self.render('pages.edit', {
-          'post': {}
+        self.render('posts.edit', {
+          'post': {},
+          'post_type': 'page'
         })
       elif action == 'publish':
         post = Post.get_single_by_key(key)
@@ -144,7 +144,7 @@ class Pages(buckley.AdminController):
       posts = Post.get_pages(num=100, cached=False)
       self.render('posts', {
         'posts': posts,
-        'post_type': 'post'
+        'post_type': 'page'
       })
 
 
