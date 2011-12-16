@@ -1,13 +1,14 @@
 from google.appengine.ext import db
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
+from google.appengine.api import memcache
 
+import base64
 import logging
 
 class ModelException(Exception):
     pass
 
 class Model(db.Model):
-
     updated = db.DateTimeProperty(auto_now=True)
     created = db.DateTimeProperty(auto_now_add=True)
 
@@ -16,6 +17,25 @@ class Model(db.Model):
         q = db.GqlQuery("SELECT * From " + self.kind() + " WHERE " + field_name + " = :1", field_value)
         r = q.fetch(num)
         return r
+
+    @classmethod
+    def fetch_cached(self, query, num=100, cached=True):
+      dat_key = "models.%s" % base64.b64encode(query)
+      dat = memcache.get(dat_key)
+      if dat is not None and cached:
+        return dat
+      try:
+        query = db.GqlQuery(query)
+        if query.count() == 0:
+          return []
+        resultset = query.fetch(num)
+        if resultset and type(resultset) == type([]):
+          r = memcache.set(dat_key, resultset, 60 * 60)
+          return resultset
+        return []
+      except Exception, e:
+        logging.exception('Sketch: model: query error', e)
+        return []
 
     @classmethod
     def get_all(self, sort = None, offset = 0, num = 50):

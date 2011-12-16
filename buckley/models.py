@@ -39,6 +39,7 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 class Post(sketch.db.Model):
   author = db.UserProperty()
   title = db.StringProperty(required=True)
+  subtitle = db.StringProperty()
   excerpt = db.TextProperty()
   excerpt_html = db.TextProperty()
   content = db.TextProperty()
@@ -46,83 +47,68 @@ class Post(sketch.db.Model):
   post_type = db.StringProperty(choices = set(['post', 'status', 'page']))
   status = db.StringProperty(required=True, choices = set(['draft', 'scheduled', 'published']))
   categories = db.ListProperty(db.Category)
+  order = db.IntegerProperty()
   stub = db.StringProperty()
   permalink = db.StringProperty()
   featured = db.BooleanProperty()
+  cached = db.BooleanProperty()
   pubdate = db.DateTimeProperty()
 
 
   @property
   def url(self):
-    return "/posts/%s" % self.stub
-
-  def publish(self):
-    self.status = 'published'
-    self.pubdate = datetime.datetime.now()
+    if self.post_type == 'post':
+      base = '/posts'
+    elif self.post_type == 'status':
+      base = '/status'
+    else:
+      base = ''
+    return "%s/%s" % (base, self.stub)
   
   @property
-  def get_excerpt(self, morelink=None):
-    if not morelink:
-      morelink = "Read More >>"
+  def get_excerpt(self):
     if self.excerpt_html:
-      return self.excerpt_html + '<a href="%s">%s</a>' % (self.url, morelink)
+      return self.excerpt_html
     return self.content_html
 
-  @classmethod
-  def get_posts_published(self, num = 5):
-    # query = db.Query(Post).filter('post_type = 'post'').order('-pubdate')
-    query = self.all().filter('post_type = ', 'post').filter('status = ', 'published').order('-pubdate')
-    return query.fetch(num)
+  @property
+  def has_excerpt(self):
+    if self.excerpt_html:
+      return True
+    return False
+
+  @property
+  def has_subtitle(self):
+    if self.subtitle:
+      return True
+    return False
 
   @classmethod
-  def get_posts_published_cached(self, num = 10, cache = False):
-    dat_key = "%s.%s" % ('models', 'index')
-    dat = memcache.get(dat_key)
-    if dat is not None and cache == False:
-      return dat, 'memcache'
-    else:
-      query = db.GqlQuery("select * from Post where post_type='post' and status='published' order by pubdate DESC")
-      r = memcache.set(dat_key, query.fetch(num))
-      if not r:
-        logging.error("Memcache: Could not set cache for %s" % dat_key)
-      else:
-        logging.info("Memcache: Set post key as %s" % dat_key)
-    return query.fetch(num), 'database'
+  def get_pages(self, num=100, cached=True):
+    return self.fetch_cached("select * from Post where post_type='page' order by order", num, cached)
 
   @classmethod
-  def get_all(self, num = 5):
-    # query = db.Query(Post).filter('post_type = 'post').order('-pubdate')
-    query = self.all().filter('post_type =', 'post').order('-pubdate')
-    return query.fetch(num)
+  def get_posts(self, num=10, cached=True):
+    return self.fetch_cached("select * from Post where post_type='post' order by pubdate DESC", num, cached)
 
   @classmethod
-  def get_all_pages(self, num = 5):
-    query = db.Query(Post).filter('post_type =', 'page').order('-pubdate')
-    # query = self.all().filter('post_type =', 'pages').order('-pubdate')
-    return query.fetch(num)
-            
-  @classmethod
-  def get_last(self, num = 5):
-    # query = db.Query(Post).filter('post_type = 'post'').order('-pubdate')
-    # query = self.all().filter('post_type = ', 'post').filter('status = ', 'published').order('-pubdate')
-    query = db.GqlQuery("select * from Post where post_type='post' and status='published' order by pubdate DESC")
-    # query.filter('limit 5')
-    # query.order('-pubdate')
-    return query.fetch(num)
+  def get_pages_published(self, num=100, cached=True):
+    return self.fetch_cached("select * from Post where post_type='page' and status='published' order by order", num, cached)
 
   @classmethod
-  def get_month(month, year):
+  def get_posts_published(self, num=10, cached=True):
+    return self.fetch_cached("select * from Post where post_type='post' and status='published' order by pubdate DESC", num, cached)
+
+  @classmethod
+  def get_posts_for_month(month, year):
     if not month:
       month = datetime.datetime.now().month
     if not year:
       year = datetime.datetime.now().year
   
-  @classmethod
-  def page_cache(self, stub):
-    pass
 
   @classmethod
-  def stub_exists(self, stub = '', cache=False):
+  def stub_exists(self, stub='', cache=False):
     dat_key = "%s.%s" % ('models', stub)
     dat = memcache.get(dat_key)
     if dat is not None and not cache:
@@ -176,3 +162,7 @@ class Post(sketch.db.Model):
   def to_dict(self):
     return dict([(p, unicode(getattr(self, p))) for p in self.properties()])
 
+  def publish(self):
+    self.status = 'published'
+    self.pubdate = datetime.datetime.now()
+    self.put()
