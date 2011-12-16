@@ -99,12 +99,18 @@ class BaseController(RequestHandler):
     if response_type == 'json':
       return self.render_json(passed_vars, response_code)
     else:
+      # setup jinja
       jinja.setup(self.config.paths.template_sets)
+      
+      # setup variables
       passed_vars = self.get_template_vars(passed_vars)
       passed_vars = self.get_plugin_vars(passed_vars)
+      
+      # Get template_set and template_theme
       template_set = self.get_template_set()
-      template_theme = self.get_template_theme()
-      logging.info('Rendering with: template_name: %s template_theme: %s template_set: %s' % (template_name, template_theme, template_set))
+      template_theme = self.get_template_theme(template_set)
+      
+      # logging.info('Rendering with: template_name: %s template_theme: %s template_set: %s' % (template_name, template_theme, template_set))
       content = jinja.render(template_name, passed_vars, template_theme=template_theme, template_set=template_set)
     
     self.render_content(content, response_code)
@@ -196,7 +202,9 @@ class BaseController(RequestHandler):
       return self.config.default_template_set
     raise Exception('no template set specified')
 
-  def get_template_theme(self):
+  def get_template_theme(self, template_set=None):
+    if template_set in self.config.template_themes:
+      return self.config.template_themes[template_set]
     if hasattr(self, 'template_theme'):
       return getmethattr(self, 'template_theme')
     if (self.config.default_template_theme):
