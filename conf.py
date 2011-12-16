@@ -6,7 +6,12 @@ title = 'Example Buckley Blog'
 description = 'A description or subheading'
 frontpage_posts = 10
 template = 'default'
-
+permalinks = {
+  'posts': '/posts/%s',
+  'images': '/posts/%s',
+}
+site_template = 'default'
+admin_template = 'admin_html'
 plugins = {
   'most_recent': {
     'display_last': 10
