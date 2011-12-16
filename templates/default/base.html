@@ -1,55 +1,56 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-<meta charset="utf-8">
-<title>{% block title %}{{ title }}{% endblock %}</title>
-<meta name="application-name" content="buckley">
-<meta name="author" value="{{ author }}">
-<meta name="description" value="{{ description }}">
-<meta name="generator" value="Buckley v0.1">
-<meta name="source" value="buckley.template.{{ src }}">	
-<link id="css-core" rel="stylesheet" href="/css/{{ css_file }}" type="text/css">
-<link id="feed-atom" rel="alternate" href="/feed" type="application/atom+xml" title="Feed">
+	<meta charset="utf-8">
+	<title>{% block title %}{{ buckley.title }}{% endblock %}</title>
+	<meta name="application-name" content="buckley">
+	<meta name="author" value="{{ buckley.author }}">
+	<meta name="description" value="{{ buckley.description }}">
+	<meta name="generator" value="Buckley v0.2">
+	<meta name="source" value="buckley.template.{{ buckley.src }}">	
+	<link id="css-core" rel="stylesheet" href="{{ static.css_file }}" type="text/css">
+	<link id="feed-atom" rel="alternate" href="/feed" type="application/atom+xml" title="Feed">
 </head>
 <body>
 <div class="topbar"> 
 <div class="fill"> 
 <div class="container"> 
-<h3>
-<a href="/">
-{{ title }}</a>
-</h3> 
-<ul> 
-	{% if admin %}<li><a href="/admin">Admin</a></li>{% endif %}
-	<li {% if tab_blog %}class="active"{% endif %}><a href="/">Blog</a></li> 
-	<li {% if tab_archive %}class="active"{% endif %}><a href="/archive">Archive</a></li>
-</ul> 
+	<h3><a href="/">{{ buckley.title }}</a></h3> 
+	<ul>
+		{% if admin %}<li><a href="/admin">Admin</a></li>{% endif %}
+		<li {% if tab_blog %}class="active"{% endif %}><a href="/">Blog</a></li> 
+		<li {% if tab_archive %}class="active"{% endif %}><a href="/archive">Archive</a></li>
+	</ul>
 </div> 
 </div> 
 </div>
 <div class="container">
 <div class="row">
-<div class="span11 columns">
-{% block content %}{% endblock %}
-</div>
-<div class="span3 columns">
-	<h5>A blog by {{ author }}</h5>
-
-	<h5>Pages</h5>
-	{% for name, link in pages %}
-	<p><a href="/{{ link }}">{{ name }}</a></p>
-	{% endfor %}
+	<div class="span11 columns">
+		{% block content %}{% endblock %}
+	</div>
 	
-	<h5>Most Recent</h5>
-	{{ most_recent }}
+	<div class="span3 columns">
+		<h5>A blog by {{ buckley.owner }}</h5>
 
-</div>
+		{% if pages %}
+			<h5>Pages</h5>
+			{% for name, link in pages %}
+				<p><a href="/{{ link }}">{{ name }}</a></p>
+			{% endfor %}
+		{% endif %}
+	
+		{% if most_recent %}
+			<h5>Most Recent</h5>
+			{{ most_recent }}
+		{% endif %}
+	</div>
 </div>
 </div>
 <div class="container">
-<footer>
-<p> &copy; 2011 {{ author }} | <a href="{{ login }}" alt="login" rel="nofollow">Login</a></p>
-</footer>
+	<footer>
+		<p>&copy; 2011 {{ buckley.owner }} | <a href="{{ login }}" alt="login" rel="nofollow">Login</a></p>
+	</footer>
 </div>
 </body>
 {% block scripts %}{% endblock %}
