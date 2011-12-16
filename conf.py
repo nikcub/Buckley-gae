@@ -5,6 +5,7 @@
 title = 'Example Buckley Blog'
 description = 'A description or subheading'
 frontpage_posts = 10
+owner = 'nik cubrilovic'
 template = 'default'
 permalinks = {
   'posts': '/posts/%s',
