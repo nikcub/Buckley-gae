@@ -456,14 +456,14 @@ class RequestHandler(object):
     self.redirect(url, permanent=_permanent, abort=_abort)
 
 
-  def redirect_back(self):
+  def redirect_back(self, msg=None):
     """Conveniance method for redirecting back to the referring page
     
     @TODO use 307 on redirect?
     @TODO do not trust the referrer - use session info
     """
     re = self.request.environ.get('HTTP_REFERER', '/')
-    self.redirect(re, code = 303, permanent=False)
+    self.redirect(re + msg, code = 303, permanent=False)
 
 
   def url_for(self, _name, *args, **kwargs):
