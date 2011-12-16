@@ -31,10 +31,6 @@ template_sets = {
 }
 default_template_set = 'site'
 default_template_theme = 'default'
-template_themes = {
-  'admin': 'admin_old',
-  'site': 'default'
-}
 enviroments = {
   'live': {
     'debug': False,
