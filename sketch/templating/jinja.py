@@ -188,9 +188,6 @@ def setup(template_paths={}, autoescape=False, cache_size=100, auto_reload=True,
   if bytecode_cache and GAE_CACHE:
     _jinja_env.bytecode_cache = GAEMemcacheBytecodeCache()
 
-  logging.info('Loading jina')
-  logging.info(template_paths)
-
   if len(template_paths) < 1:
     logging.exception('Sketch: jinja.setup: no template sets configured')
     return False
