@@ -23,7 +23,7 @@ class Model(db.Model):
       dat_key = "models.%s" % base64.b64encode(query)
       dat = memcache.get(dat_key)
       if dat is not None and cached:
-        return dat
+        return dat[:num]
       try:
         query = db.GqlQuery(query)
         if query.count() == 0:
