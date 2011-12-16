@@ -53,6 +53,7 @@ import sketch
 import logging
 
 from sketch.helpers.dateformat import *
+from sketch.helpers.forms import *
 from sketch.exception import NotFound, Forbidden, InternalServerError
 
 try:
@@ -235,6 +236,7 @@ def render(template_name, vars={}, template_set='site', template_theme=None):
   _jinja_env.filters['rfcdate'] = rfc2822_date
   _jinja_env.filters['dtformat'] = datetimeformat
   _jinja_env.filters['timestamp'] = timestamp
+  _jinja_env.filters['checkbox'] = bool_to_checkbox
   
   _template_name = "%s:%s.html" % (template_set, template_name)
   template = _jinja_env.get_template(_template_name, parent=template_theme)
