@@ -2857,3 +2857,12 @@ textarea {
 .label.draft {
   background-color: #f89406;
 }
+.label.featured {
+  background-color: #c43c35;
+}
+.label.cached {
+  background-color: #62cffc;
+}
+td.featured, tr.featured {
+  background-color: #FEE9CC;
+}
