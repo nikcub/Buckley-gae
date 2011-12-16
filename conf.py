@@ -10,8 +10,10 @@ permalinks = {
   'posts': '/posts/%s',
   'images': '/posts/%s',
 }
-site_template = 'default'
-admin_template = 'admin_html'
+template_themes = {
+  'site': 'default',
+  'admin': 'admin_html'
+}
 plugins = {
   'most_recent': {
     'display_last': 10

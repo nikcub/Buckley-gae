@@ -160,22 +160,22 @@ class Config(AttrDict):
     :param config: Config object
     """
     # self.data['paths'] = assure_obj_child_dict(self.data['paths'], 'templates')
-    if not 'templates' in self.paths:
-      self.paths.templates = {}
+    if not 'template_sets' in self.paths:
+      self.paths.template_sets = {}
     templates = {}
 
-    if not 'templates' in self:
+    if not 'template_sets' in self:
       return None
 
-    for template in self.templates:
-      temp_path = self.templates[template]
+    for template in self.template_sets:
+      temp_path = self.template_sets[template]
       if '$' in temp_path:
         s = string.Template(temp_path)
         temp_path = s.substitute(self['paths'])
       if os.path.isdir(temp_path):
-        self.paths.templates[template] = temp_path
+        self.paths.template_sets[template] = temp_path
       else:
-        logging.error("Config: Could not set template path for %s, not a directory: %s" % (template, temp_path))
+        logging.info("Config: Could not set template path for %s, not a directory: %s" % (template, temp_path))
 
   
   #---------------------------------------------------------------------------

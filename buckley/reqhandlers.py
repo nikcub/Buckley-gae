@@ -7,7 +7,7 @@ import sketch
 from google.appengine.api import users    
     
 class BaseController(sketch.BaseController):
-  template_folder = 'default'
+  template_theme = 'default'
   javascripts = {
     # @TODO this is all for the new default style
     # 'libs': {'src': ['/js/lib/all.js'], 'insert_at': 'foot'},
@@ -54,7 +54,8 @@ class BaseController(sketch.BaseController):
 
 
 class AdminController(BaseController):
-  template_folder = 'admin_old'
+  template_set = 'app'
+  template_theme = 'admin_html'
   styles_debug = ['/css/admin.css?001']
   javascripts_debug = {}
   javascripts_live = {}
@@ -82,7 +83,8 @@ class AdminController(BaseController):
 
 # @TODO move to the new ajax admin
 class AdminController_new(BaseController):
-  template_folder = 'admin'
+  template_set = 'app'
+  template_theme = 'admin_js'
   javascripts_live = {
     'libs': {'src': ['/js/lib/all.js'], 'insert_at': 'foot', 'version': '001'},
     # 'jquery': {'src': ['/js/lib/jquery.js'], 'insert_at': 'foot'},

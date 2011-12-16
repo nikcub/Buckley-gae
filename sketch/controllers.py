@@ -25,6 +25,7 @@ class BaseController(RequestHandler):
   """
   
   _Plugins = {}
+  template_set = 'site'
   message = False
   message_type = None
 
@@ -83,7 +84,7 @@ class BaseController(RequestHandler):
 
 
   def render(self, template_name, passed_vars, response_code = 200, 
-          response_type=False, prettyPrint=False, template_set='app', template_theme=None):
+          response_type=False, prettyPrint=False, template_set='site', template_theme=None):
     """Main render helper function. Wraps other rendering functions
     
     """
@@ -98,14 +99,12 @@ class BaseController(RequestHandler):
     if response_type == 'json':
       return self.render_json(passed_vars, response_code)
     else:
-      jinja.setup(self.config.paths.templates)
+      jinja.setup(self.config.paths.template_sets)
       passed_vars = self.get_template_vars(passed_vars)
       passed_vars = self.get_plugin_vars(passed_vars)
-      # fixing..
-      if hasattr(self, 'template_folder'):
-        template_theme = getmethattr(self, 'template_folder')
-      if not template_theme and self.config.template:
-        template_theme = self.config.template
+      template_set = self.get_template_set()
+      template_theme = self.get_template_theme()
+      logging.info('Rendering with: template_name: %s template_theme: %s template_set: %s' % (template_name, template_theme, template_set))
       content = jinja.render(template_name, passed_vars, template_theme=template_theme, template_set=template_set)
     
     self.render_content(content, response_code)
@@ -188,6 +187,21 @@ class BaseController(RequestHandler):
         
     template_vars['javascripts'] = js_tmp
     return template_vars
+
+
+  def get_template_set(self):
+    if hasattr(self, 'template_set'):
+      return getmethattr(self, 'template_set')
+    if (self.config.default_template_set):
+      return self.config.default_template_set
+    raise Exception('no template set specified')
+
+  def get_template_theme(self):
+    if hasattr(self, 'template_theme'):
+      return getmethattr(self, 'template_theme')
+    if (self.config.default_template_theme):
+      return self.config.default_template_theme
+    raise Exception('no template theme specified')
 
 
   def get_template_vars(self, vars):

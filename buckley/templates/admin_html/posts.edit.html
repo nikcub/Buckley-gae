@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} >> Admin >> Edit Post{% endblock %}
+
+{% block scripts %}
+	<script src="/js/codemirror.js"></script>
+	<script src="/js/codemirror-htmlmixed.js"></script>
+	<script src="/js/codemirror-xml.js"></script>
+	<script src="/js/codemirror-markdown.js"></script>
+	<script src="/js/codemirror-javascript.js"></script>
+	<link id="css-reset" rel="stylesheet" href="/css/codemirror.css?004" type="text/css">
+	<link id="css-reset" rel="stylesheet" href="/css/markdown.css?004" type="text/css">
+	<style>
+	.postEditor {
+		border-top: 1px solid black; 
+		border-bottom: 1px solid black;
+	}
+	.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}
+	.activeline {background: #f0fcff !important;}	
+	</style>
+	<script>
+	$(function() {
+		var postEditor = document.getElementById('postEditor');
+		var myCodeMirror = CodeMirror.fromTextArea(postEditor, {
+			mode: 'markdown',
+			lineWrapping: true,
+			lineNumbers: true,
+			onCursorActivity: function() {
+		    myCodeMirror.setLineClass(hlLine, null);
+		    hlLine = myCodeMirror.setLineClass(myCodeMirror.getCursor().line, "activeline");
+		  }
+		});
+		var hlLine = myCodeMirror.setLineClass(0, "activeline");
+	})
+		
+	</script>
+{% endblock %}
+
+{% block content %}
+{% if post %}
+<article>
+	<header>
+		<h2>Edit {{ post_type|capitalize }}</h2>
+	</header>
+	<form method="post" action="/admin/posts/edit/{{ post.key() }}" id="admin_edit">
+		<fieldset>
+			<div class="clearfix">
+				<label for="title">Title</label>
+				<div class="input">
+					<input type="text" name="title" class="span11" value="{{ post.title }}">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="stub">Stub</label>
+				<div class="input">
+					<input type="text" name="stub" class="span8" disabled value="{{ post.stub }}"> <a href="">Link ></a>
+				</div>
+			</div>
+			<div class="span16">
+					<textarea name="content" id="postEditor" rows="20" class="span16">{{ post.content }}</textarea>
+					<div class="help_text">
+						<p>Accepts <a href="http://daringfireball.net/projects/markdown/" target="_new">Markdown</a></p>
+						<p>Mark off excerpt with <code>--</code> on a new line</p>
+						<p>Image: <code>![alt](http://url)</code></p>
+					</div>
+			</div>						
+			<div class="actions">
+				<button type="submit" name="action" value="save" class="btn primary">save</button>
+				<button type="submit" name="action" value="publish" class="btn success">publish</button>
+       </div>
+		</fieldset>
+	</form>
+</article>
+{% else %}
+<article>
+	<header>
+		<h2>New {{ post_type|capitalize }}</h2>
+	</header>
+	<form method="post" action="/admin/posts" id="admin_edit">
+		<fieldset>
+			<div class="clearfix">
+				<label for="title">Title</label>
+				<div class="input">
+					<input type="text" name="title" class="span11">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="title">Content</label>
+				<div class="input">
+					<textarea name="content" rows="15" class="span11"></textarea>
+				</div>
+			</div>
+			<div class="actions">
+				<button type="submit" name="action" value="save" class="btn primary">save</button>
+				<button type="submit" name="action" value="publish" class="btn success">publish</button>
+       </div>
+		</fieldset>
+	</form>
+</article>
+{% endif %}
+{% endblock %}

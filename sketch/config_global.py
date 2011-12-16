@@ -24,10 +24,16 @@ server_email = {
   'username': None,
   'password': None
 }
-templates = {
+template_sets = {
   'app': '$app_dir/templates',
   'site': '$site_dir/templates',
   'sketch': '$sketch_dir/templates',
+}
+default_template_set = 'site'
+default_template_theme = 'default'
+template_themes = {
+  'admin': 'admin_old',
+  'site': 'default'
 }
 enviroments = {
   'live': {
