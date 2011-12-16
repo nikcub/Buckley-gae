@@ -27,7 +27,7 @@
 				<td>{{ post.title }}</td>
 				<td>{{ post.post_type }}</td>
 				<td>{{ post.status }}</td>
-				<td>{{ post.pubdate|tformat("j M Y") }}</td>
+				<td>{{ post.pubdate|date("j M Y") }}</td>
 				<td>{{ post.author }}</td>
 				<td><a href="/admin/pages/edit/{{ post.key() }}">edit</a></td>
 				<td><a href="/{{ post.stub }}">view</a></td>

@@ -5,17 +5,16 @@
 {% block content %}
 <article>
 	<header>
-		<h2>{{ post_type|capitalize }}</h2>
+		<h2>{{ post_type|capitalize }} <small><a href="/admin/posts/new">New Post >></a></small></h2>
 	</header>
 	<table id="admin_posts">
 		<thead>
 		<tr>
 			<!-- <th><input type="checkbox" id="check_all"></td> -->
 			<th>Title</th>
-			<th>Type</th>
 			<th>Status</th>
-			<th>Date</th>
-			<th>Author</th>
+			<th>Created</th>
+			<th>Published</th>
 			<th></td>
 			<th></td>
 			<th></td>
@@ -23,10 +22,14 @@
 		</thead>
 		<tbody>
 		{% for post in posts %}
-			<tr>
+			<tr class="{%- if post.featured %}featured{% endif %}">
 				<td>{{ post.title }}</td>
-				<td>{{ post.post_type }}</td>
-				<td><span class="label {{ post.status }}">{{ post.status }}</span></td>
+				<td><span class="label {{ post.status }}">{{ post.status }}</span>
+					{% if post.cached %}
+						<span class="label cached">Cached</span>
+					{% endif %}					
+				</td>
+				<td>{{ post.created|timesince }}</td>
 				<td>
 				{% if post.pubdate %}
 					{{ post.pubdate|date("j M Y") }}
@@ -34,7 +37,6 @@
 					- 
 				{% endif %}
 				</td>
-				<td>{{ post.author }}</td>
 				<td><a href="/admin/posts/edit/{{ post.key() }}" class="btn info">Edit</a></td>
 				<td><a href="{{ post.url }}" target="_new" class="btn info">View</a></td>
 				<td>

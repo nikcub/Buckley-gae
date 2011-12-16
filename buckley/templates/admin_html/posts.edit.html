@@ -51,17 +51,32 @@
 				</div>
 			</div>
 			<div class="clearfix">
+				<label for="title">Sub-title</label>
+				<div class="input">
+					<input type="text" name="subtitle" class="span11" value="{{ post.subtitle }}">
+				</div>
+				<p><small>All optional</small></p>
+			</div>
+			<div class="clearfix">
 				<label for="stub">Stub</label>
 				<div class="input">
-					<input type="text" name="stub" class="span8" disabled value="{{ post.stub }}"> <a href="">Link ></a>
+					<input type="text" name="stub" class="span8" disabled value="{{ post.stub }}"> <a href="/posts/{{ post.key() }}">Link ></a>
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="title">Options</label>
+				<div class="input">
+					<input type="checkbox" name="featured" class="" {{ post.featured|checkbox }}> Featured
+					<input type="checkbox" name="cached" class="" {{ post.cached|checkbox }}> Cached
 				</div>
 			</div>
 			<div class="span16">
-					<textarea name="content" id="postEditor" rows="20" class="span16">{{ post.content }}</textarea>
+					<textarea name="content" id="postEditor" rows="20" class="span14">{{ post.content }}</textarea>
 					<div class="help_text">
-						<p>Accepts <a href="http://daringfireball.net/projects/markdown/" target="_new">Markdown</a></p>
-						<p>Mark off excerpt with <code>--</code> on a new line</p>
-						<p>Image: <code>![alt](http://url)</code></p>
+						<p><small>Accepts <a href="http://daringfireball.net/projects/markdown/" target="_new">Markdown</a></small></p>
+						<p><small>Mark off excerpt with <code>--</code> on a new line</small></p>
+						<p><small>Link: <code>[src](http://url)</code></small></p>
+						<p><small>Image: <code>![alt](http://url)</code></small></p>
 					</div>
 			</div>						
 			<div class="actions">
@@ -85,11 +100,36 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="title">Content</label>
+				<label for="title">Sub-title</label>
 				<div class="input">
-					<textarea name="content" rows="15" class="span11"></textarea>
+					<input type="text" name="subtitle" class="span11">
+					<p><small>Optional</small></p>
+				</div>
+			</div>			
+			<div class="clearfix">
+				<label for="stub">Stub</label>
+				<div class="input">
+					<input type="text" name="stub" class="span8">
+					<p><small>Leave blank to autogenerate</small></p>
 				</div>
 			</div>
+			<div class="clearfix">
+				<label for="title">Options</label>
+				<div class="input">
+					<input type="checkbox" name="featured" class=""> Featured
+					<input type="checkbox" name="cached" class=""> Cached
+				</div>
+				<p><small>All optional</small></p>
+			</div>
+			<div class="span16">
+					<textarea name="content" id="postEditor" rows="20" class="span14"></textarea>
+					<div class="help_text">
+						<p><small>Accepts <a href="http://daringfireball.net/projects/markdown/" target="_new">Markdown</a></small></p>
+						<p><small>Mark off excerpt with <code>--</code> on a new line</small></p>
+						<p><small>Link: <code>[src](http://url)</code></small></p>
+						<p><small>Image: <code>![alt](http://url)</code></small></p>
+					</div>
+			</div>						
 			<div class="actions">
 				<button type="submit" name="action" value="save" class="btn primary">save</button>
 				<button type="submit" name="action" value="publish" class="btn success">publish</button>
