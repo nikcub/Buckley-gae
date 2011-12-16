@@ -50,10 +50,14 @@ class BaseController(sketch.BaseController):
   def get_user_object(self):
     user = {
       'admin': users.is_current_user_admin(),
-      'user': users.get_current_user(),
       'logout': users.create_logout_url('/'),
       'login': users.create_login_url('/'),
     }
+    gae_user = users.get_current_user()
+    if gae_user:
+      user['loggedin'] = True
+      user['nickname'] = gae_user.nickname()
+      user['email'] = gae_user.email()
     return user
 
   def template_wrapper(self, variables = {}):
@@ -61,8 +65,6 @@ class BaseController(sketch.BaseController):
     buckley = self.get_buckley_conf()
     user = self.get_user_object()
     static = self.get_static_resources()
-    
-    logging.info(pages)
     
     additional = {
       'buckley': buckley,
