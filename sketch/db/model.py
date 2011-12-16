@@ -62,7 +62,7 @@ class Model(db.Model):
             z = self.put()
             return True
         except CapabilityDisabledError:
-            logging.error('Database IS DOWN!!!')
+            logging.error('Database is down')
 
     @classmethod
     def get_last(self, num = 50):
