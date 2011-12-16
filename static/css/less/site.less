@@ -1,5 +1,4 @@
 
-
 /* EXAMPLE CSS FILE FOR THE DEFAULT TEMPLATE */
 
 // Links
@@ -49,21 +48,17 @@
 @analog1:           spin(@baseColor, 22);   // Analogs colors
 @analog2:           spin(@baseColor, -22);
 
-// CSS Reset
-@import "bootstrap/reset.less";
-
-// Core variables and mixins
-@import "bootstrap/mixins.less";
-
-// Grid system and page structure
-@import "bootstrap/scaffolding.less";
-
-// Styled patterns and elements
-@import "bootstrap/type.less";
-@import "bootstrap/forms.less";
-@import "bootstrap/tables.less";
-@import "bootstrap/patterns.less";
+@import "socks/reset.less";
+@import "socks/mixins.less";
+@import "socks/scaffolding.less";
+@import "socks/type.less";
+@import "socks/forms.less";
+@import "socks/tables.less";
+@import "socks/patterns.less";
 
 body {
-  padding-top: 45px;
+}
+
+.topbar {
+  position: relative;
 }

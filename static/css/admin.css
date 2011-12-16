@@ -167,8 +167,10 @@ textarea {
  * Scaffolding
  * Basic and global styles for generating a grid system, structural layout, and page templates
  * ------------------------------------------------------------------------------------------- */
-body {
+html, body {
   background-color: #ffffff;
+}
+body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
@@ -206,9 +208,7 @@ body {
   clear: both;
 }
 .container-fluid > .sidebar {
-  position: absolute;
-  top: 0;
-  left: 20px;
+  float: left;
   width: 220px;
 }
 .container-fluid > .content {
@@ -248,7 +248,7 @@ a:hover {
 .row:after {
   clear: both;
 }
-.row > [class*="span"] {
+[class*="span"] {
   display: inline;
   float: left;
   margin-left: 20px;
@@ -325,40 +325,40 @@ a:hover {
 .span24 {
   width: 1420px;
 }
-.row  > .offset1 {
+.offset1 {
   margin-left: 80px;
 }
-.row  > .offset2 {
+.offset2 {
   margin-left: 140px;
 }
-.row  > .offset3 {
+.offset3 {
   margin-left: 200px;
 }
-.row  > .offset4 {
+.offset4 {
   margin-left: 260px;
 }
-.row  > .offset5 {
+.offset5 {
   margin-left: 320px;
 }
-.row  > .offset6 {
+.offset6 {
   margin-left: 380px;
 }
-.row  > .offset7 {
+.offset7 {
   margin-left: 440px;
 }
-.row  > .offset8 {
+.offset8 {
   margin-left: 500px;
 }
-.row  > .offset9 {
+.offset9 {
   margin-left: 560px;
 }
-.row  > .offset10 {
+.offset10 {
   margin-left: 620px;
 }
-.row  > .offset11 {
+.offset11 {
   margin-left: 680px;
 }
-.row  > .offset12 {
+.offset12 {
   margin-left: 740px;
 }
 .span-one-third {
@@ -529,6 +529,9 @@ code, pre {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  -webkit-border-radius: 3px 5px 5px 5px;
+  -moz-border-radius: 3px 5px 5px 5px;
+  border-radius: 3px 5px 5px 5px;
 }
 code {
   background-color: #fee9cc;
@@ -547,6 +550,9 @@ pre {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  -webkit-border-radius: 3px 5px 5px 5px;
+  -moz-border-radius: 3px 5px 5px 5px;
+  border-radius: 3px 5px 5px 5px;
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -625,10 +631,14 @@ select,
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  -webkit-border-radius: 3px 5px 5px 5px;
+  -moz-border-radius: 3px 5px 5px 5px;
+  border-radius: 3px 5px 5px 5px;
 }
 select {
   padding: initial;
 }
+/* mini reset for non-html5 file types */
 input[type=checkbox], input[type=radio] {
   width: auto;
   height: auto;
@@ -914,6 +924,9 @@ textarea[readonly] {
   -webkit-border-radius: 0 0 3px 3px;
   -moz-border-radius: 0 0 3px 3px;
   border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0 0 3px 3px 5px 5px 5px;
+  -moz-border-radius: 0 0 3px 3px 5px 5px 5px;
+  border-radius: 0 0 3px 3px 5px 5px 5px;
 }
 .actions .secondary-action {
   float: right;
@@ -952,6 +965,9 @@ textarea[readonly] {
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
+  -webkit-border-radius: 0 3px 3px 0 5px 5px 5px;
+  -moz-border-radius: 0 3px 3px 0 5px 5px 5px;
+  border-radius: 0 3px 3px 0 5px 5px 5px;
 }
 .input-prepend .add-on, .input-append .add-on {
   position: relative;
@@ -973,6 +989,9 @@ textarea[readonly] {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px 0 0 3px 5px 5px 5px;
+  -moz-border-radius: 3px 0 0 3px 5px 5px 5px;
+  border-radius: 3px 0 0 3px 5px 5px 5px;
 }
 .input-prepend .active, .input-append .active {
   background: #a9dba9;
@@ -988,11 +1007,17 @@ textarea[readonly] {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px 0 0 3px 5px 5px 5px;
+  -moz-border-radius: 3px 0 0 3px 5px 5px 5px;
+  border-radius: 3px 0 0 3px 5px 5px 5px;
 }
 .input-append .add-on {
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
+  -webkit-border-radius: 0 3px 3px 0 5px 5px 5px;
+  -moz-border-radius: 0 3px 3px 0 5px 5px 5px;
+  border-radius: 0 3px 3px 0 5px 5px 5px;
   margin-right: 0;
   margin-left: -1px;
 }
@@ -1091,11 +1116,18 @@ table {
   width: 100%;
   margin-bottom: 14px;
   padding: 0;
+  border-collapse: separate;
+  *border-collapse: collapse;
+  /* IE7, collapse table to remove spacing */
+
   font-size: 11px;
-  border-collapse: collapse;
+  /*  border: 1px solid #ddd;*/
+
+  /*  .border-radius(4px);*/
+
 }
 table th, table td {
-  padding: 10px 10px 9px;
+  padding: 2px 2px 0px;
   line-height: 14px;
   text-align: left;
 }
@@ -1103,103 +1135,53 @@ table th {
   padding-top: 9px;
   font-weight: bold;
   vertical-align: middle;
+  border-bottom: 1px solid #ddd;
 }
 table td {
   vertical-align: top;
-  border-top: 1px solid #ddd;
 }
-table tbody th {
-  border-top: 1px solid #ddd;
-  vertical-align: top;
-}
-.condensed-table th, .condensed-table td {
-  padding: 5px 5px 4px;
-}
-.bordered-table {
-  border: 1px solid #ddd;
-  border-collapse: separate;
-  *border-collapse: collapse;
-  /* IE7, collapse table to remove spacing */
-
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-.bordered-table th + th, .bordered-table td + td, .bordered-table th + td {
+table th + th, table td + td {
   border-left: 1px solid #ddd;
 }
-.bordered-table thead tr:first-child th:first-child, .bordered-table tbody tr:first-child td:first-child {
+table tr + tr td {
+  border-top: 1px solid #ddd;
+}
+table tbody tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0 0;
   -moz-border-radius: 4px 0 0 0;
   border-radius: 4px 0 0 0;
+  -webkit-border-radius: 4px 0 0 0 5px 5px 5px;
+  -moz-border-radius: 4px 0 0 0 5px 5px 5px;
+  border-radius: 4px 0 0 0 5px 5px 5px;
 }
-.bordered-table thead tr:first-child th:last-child, .bordered-table tbody tr:first-child td:last-child {
+table tbody tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
   -moz-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
+  -webkit-border-radius: 0 4px 0 0 5px 5px 5px;
+  -moz-border-radius: 0 4px 0 0 5px 5px 5px;
+  border-radius: 0 4px 0 0 5px 5px 5px;
 }
-.bordered-table tbody tr:last-child td:first-child {
+table tbody tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
   -moz-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
+  -webkit-border-radius: 0 0 0 4px 5px 5px 5px;
+  -moz-border-radius: 0 0 0 4px 5px 5px 5px;
+  border-radius: 0 0 0 4px 5px 5px 5px;
 }
-.bordered-table tbody tr:last-child td:last-child {
+table tbody tr:last-child td:last-child {
   -webkit-border-radius: 0 0 4px 0;
   -moz-border-radius: 0 0 4px 0;
   border-radius: 0 0 4px 0;
+  -webkit-border-radius: 0 0 4px 0 5px 5px 5px;
+  -moz-border-radius: 0 0 4px 0 5px 5px 5px;
+  border-radius: 0 0 4px 0 5px 5px 5px;
 }
-table .span1 {
-  width: 20px;
-}
-table .span2 {
-  width: 60px;
-}
-table .span3 {
-  width: 100px;
-}
-table .span4 {
-  width: 140px;
-}
-table .span5 {
-  width: 180px;
-}
-table .span6 {
-  width: 220px;
-}
-table .span7 {
-  width: 260px;
-}
-table .span8 {
-  width: 300px;
-}
-table .span9 {
-  width: 340px;
-}
-table .span10 {
-  width: 380px;
-}
-table .span11 {
-  width: 420px;
-}
-table .span12 {
-  width: 460px;
-}
-table .span13 {
-  width: 500px;
-}
-table .span14 {
-  width: 540px;
-}
-table .span15 {
-  width: 580px;
-}
-table .span16 {
-  width: 620px;
-}
-.zebra-striped tbody tr:nth-child(odd) td, .zebra-striped tbody tr:nth-child(odd) th {
+.zebra-striped tbody tr:nth-child(odd) td {
   background-color: #f9f9f9;
 }
-.zebra-striped tbody tr:hover td, .zebra-striped tbody tr:hover th {
+.zebra-striped tbody tr:hover td {
   background-color: #f5f5f5;
 }
 table .header {
@@ -1353,6 +1335,9 @@ table .headerSortUp.purple, table .headerSortDown.purple {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0px rgba(255, 255, 255, 0.25);
   -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0px rgba(255, 255, 255, 0.25);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 0px rgba(255, 255, 255, 0.25);
@@ -1556,6 +1541,9 @@ a.menu:after, .dropdown-toggle:after {
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
+  -webkit-border-radius: 0 0 6px 6px 5px 5px 5px;
+  -moz-border-radius: 0 0 6px 6px 5px 5px 5px;
+  border-radius: 0 0 6px 6px 5px 5px 5px;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -1618,7 +1606,7 @@ a.menu:after, .dropdown-toggle:after {
 .dropdown.open .dropdown-menu {
   display: block;
 }
-.tabs, .pills {
+.tabs, .pills, .menu {
   margin: 0 0 14px;
   padding: 0;
   list-style: none;
@@ -1626,19 +1614,21 @@ a.menu:after, .dropdown-toggle:after {
 }
 .tabs:before,
 .pills:before,
+.menu:before,
 .tabs:after,
-.pills:after {
+.pills:after,
+.menu:after {
   display: table;
   content: "";
   zoom: 1;
 }
-.tabs:after, .pills:after {
+.tabs:after, .pills:after, .menu:after {
   clear: both;
 }
-.tabs > li, .pills > li {
+.tabs > li, .pills > li, .menu > li {
   float: left;
 }
-.tabs > li > a, .pills > li > a {
+.tabs > li > a, .pills > li > a, .menu > li > a {
   display: block;
 }
 .tabs {
@@ -1658,6 +1648,9 @@ a.menu:after, .dropdown-toggle:after {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0 5px 5px 5px;
+  -moz-border-radius: 4px 4px 0 0 5px 5px 5px;
+  border-radius: 4px 4px 0 0 5px 5px 5px;
 }
 .tabs > li > a:hover {
   text-decoration: none;
@@ -1677,6 +1670,9 @@ a.menu:after, .dropdown-toggle:after {
   -webkit-border-radius: 0 6px 6px 6px;
   -moz-border-radius: 0 6px 6px 6px;
   border-radius: 0 6px 6px 6px;
+  -webkit-border-radius: 0 6px 6px 6px 5px 5px 5px;
+  -moz-border-radius: 0 6px 6px 6px 5px 5px 5px;
+  border-radius: 0 6px 6px 6px 5px 5px 5px;
 }
 .tabs a.menu:after, .tabs .dropdown-toggle:after {
   border-top-color: #999;
@@ -1697,6 +1693,9 @@ a.menu:after, .dropdown-toggle:after {
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
+  -webkit-border-radius: 15px 5px 5px 5px;
+  -moz-border-radius: 15px 5px 5px 5px;
+  border-radius: 15px 5px 5px 5px;
 }
 .pills a:hover {
   color: #ffffff;
@@ -1709,18 +1708,15 @@ a.menu:after, .dropdown-toggle:after {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
   background-color: #f07d6b;
 }
-.pills-vertical > li {
-  float: none;
-}
-.tab-content > .tab-pane, .pill-content > .pill-pane {
+.tab-content > *, .pill-content > * {
   display: none;
 }
 .tab-content > .active, .pill-content > .active {
   display: block;
 }
 .breadcrumb {
-  padding: 7px 14px;
   margin: 0 0 14px;
+  padding: 7px 14px;
   background-color: #f5f5f5;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#ffffff), to(#f5f5f5));
@@ -1735,6 +1731,9 @@ a.menu:after, .dropdown-toggle:after {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  -webkit-border-radius: 3px 5px 5px 5px;
+  -moz-border-radius: 3px 5px 5px 5px;
+  border-radius: 3px 5px 5px 5px;
   -webkit-box-shadow: inset 0 1px 0 #ffffff;
   -moz-box-shadow: inset 0 1px 0 #ffffff;
   box-shadow: inset 0 1px 0 #ffffff;
@@ -1757,6 +1756,9 @@ a.menu:after, .dropdown-toggle:after {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  -webkit-border-radius: 6px 5px 5px 5px;
+  -moz-border-radius: 6px 5px 5px 5px;
+  border-radius: 6px 5px 5px 5px;
 }
 .hero-unit h1 {
   margin-bottom: 0;
@@ -1811,6 +1813,7 @@ footer {
 .btn.error,
 .alert-message.error {
   background-color: #c43c35;
+  background-color: #c43c35;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#ee5f5b), to(#c43c35));
   background-image: -moz-linear-gradient(top, #ee5f5b, #c43c35);
@@ -1826,6 +1829,7 @@ footer {
 }
 .btn.success, .alert-message.success {
   background-color: #57a957;
+  background-color: #57a957;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#62c462), to(#57a957));
   background-image: -moz-linear-gradient(top, #62c462, #57a957);
@@ -1840,6 +1844,7 @@ footer {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 .btn.info, .alert-message.info {
+  background-color: #339bb9;
   background-color: #339bb9;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#5bc0de), to(#339bb9));
@@ -1876,6 +1881,9 @@ footer {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -1896,6 +1904,7 @@ footer {
 .btn.primary {
   color: #ffffff;
   background-color: #0064cd;
+  background-color: #0064cd;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#049cdb), to(#0064cd));
   background-image: -moz-linear-gradient(top, #049cdb, #0064cd);
@@ -1909,7 +1918,7 @@ footer {
   border-color: #0064cd #0064cd #003f81;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-.btn.active, .btn :active {
+.btn:active {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -1938,6 +1947,18 @@ footer {
   -moz-box-shadow: none;
   box-shadow: none;
 }
+.btn.flat {
+  font-weight: bold;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -webkit-border-radius: 0px 5px 5px 5px;
+  -moz-border-radius: 0px 5px 5px 5px;
+  border-radius: 0px 5px 5px 5px;
+  color: #666;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-image: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#f5f5f5), to(#f1f1f1));
+}
 .btn.large {
   font-size: 13px;
   line-height: normal;
@@ -1945,10 +1966,22 @@ footer {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  -webkit-border-radius: 6px 5px 5px 5px;
+  -moz-border-radius: 6px 5px 5px 5px;
+  border-radius: 6px 5px 5px 5px;
 }
 .btn.small {
   padding: 7px 9px 7px;
   font-size: 9px;
+}
+.btn.inline {
+  height: 11px;
+  padding: 3px 6px 3px 6px;
+}
+.btn.centered {
+  float: left;
+  margin: 0 auto;
+  text-align: center;
 }
 :root .alert-message, :root .btn {
   border-radius: 0 \0;
@@ -1964,10 +1997,10 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   font-weight: bold;
   line-height: 10.5px;
   text-shadow: 0 1px 0 #ffffff;
-  filter: alpha(opacity=25);
-  -khtml-opacity: 0.25;
-  -moz-opacity: 0.25;
-  opacity: 0.25;
+  filter: alpha(opacity=20);
+  -khtml-opacity: 0.2;
+  -moz-opacity: 0.2;
+  opacity: 0.2;
 }
 .close:hover {
   color: #000000;
@@ -1982,6 +2015,7 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   padding: 7px 15px;
   margin-bottom: 14px;
   color: #404040;
+  background-color: #eedc94;
   background-color: #eedc94;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#fceec1), to(#eedc94));
@@ -2001,23 +2035,17 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .alert-message .close {
-  margin-top: 1px;
-  *margin-top: 0;
-}
-.alert-message a {
-  font-weight: bold;
-  color: #404040;
-}
-.alert-message.danger p a,
-.alert-message.error p a,
-.alert-message.success p a,
-.alert-message.info p a {
-  color: #ffffff;
+  *margin-top: 3px;
+  /* IE7 spacing */
+
 }
 .alert-message h5 {
   line-height: 14px;
@@ -2073,12 +2101,6 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   background-color: #ddf4fb;
   border-color: #c6edf9;
 }
-.alert-message.block-message.danger p a,
-.alert-message.block-message.error p a,
-.alert-message.block-message.success p a,
-.alert-message.block-message.info p a {
-  color: #404040;
-}
 .pagination {
   height: 28px;
   margin: 14px 0;
@@ -2091,6 +2113,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  -webkit-border-radius: 3px 5px 5px 5px;
+  -moz-border-radius: 3px 5px 5px 5px;
+  border-radius: 3px 5px 5px 5px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -2130,6 +2155,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -2162,7 +2190,7 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   left: 50%;
   z-index: 11000;
   width: 560px;
-  margin: -250px 0 0 -280px;
+  margin: -250px 0 0 -250px;
   background-color: #ffffff;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -2172,6 +2200,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  -webkit-border-radius: 6px 5px 5px 5px;
+  -moz-border-radius: 6px 5px 5px 5px;
+  border-radius: 6px 5px 5px 5px;
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
@@ -2200,9 +2231,6 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 .modal-body {
   padding: 15px;
 }
-.modal-body form {
-  margin-bottom: 0;
-}
 .modal-footer {
   background-color: #f5f5f5;
   padding: 14px 15px 15px;
@@ -2210,6 +2238,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 0 0 6px 6px;
   -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
+  -webkit-border-radius: 0 0 6px 6px 5px 5px 5px;
+  -moz-border-radius: 0 0 6px 6px 5px 5px 5px;
+  border-radius: 0 0 6px 6px 5px 5px 5px;
   -webkit-box-shadow: inset 0 1px 0 #ffffff;
   -moz-box-shadow: inset 0 1px 0 #ffffff;
   box-shadow: inset 0 1px 0 #ffffff;
@@ -2227,9 +2258,6 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 .modal-footer .btn {
   float: right;
   margin-left: 5px;
-}
-.modal .popover, .modal .twipsy {
-  z-index: 12000;
 }
 .twipsy {
   display: block;
@@ -2291,6 +2319,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
 }
 .twipsy-arrow {
   position: absolute;
@@ -2343,14 +2374,17 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   height: 0;
 }
 .popover .inner {
-  background: #000000;
-  background: rgba(0, 0, 0, 0.8);
+  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 3px;
   overflow: hidden;
   width: 280px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  -webkit-border-radius: 6px 5px 5px 5px;
+  -moz-border-radius: 6px 5px 5px 5px;
+  border-radius: 6px 5px 5px 5px;
   -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
@@ -2362,6 +2396,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 3px 3px 0 0;
   -moz-border-radius: 3px 3px 0 0;
   border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 3px 3px 0 0 5px 5px 5px;
+  -moz-border-radius: 3px 3px 0 0 5px 5px 5px;
+  border-radius: 3px 3px 0 0 5px 5px 5px;
   border-bottom: 1px solid #eee;
 }
 .popover .content {
@@ -2370,6 +2407,9 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   -webkit-border-radius: 0 0 3px 3px;
   -moz-border-radius: 0 0 3px 3px;
   border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0 0 3px 3px 5px 5px 5px;
+  -moz-border-radius: 0 0 3px 3px 5px 5px 5px;
+  border-radius: 0 0 3px 3px 5px 5px 5px;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -2390,15 +2430,18 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 }
 .label {
   padding: 1px 3px 2px;
+  background-color: #bfbfbf;
   font-size: 8.25px;
   font-weight: bold;
   color: #ffffff;
   text-transform: uppercase;
   white-space: nowrap;
-  background-color: #bfbfbf;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  -webkit-border-radius: 3px 5px 5px 5px;
+  -moz-border-radius: 3px 5px 5px 5px;
+  border-radius: 3px 5px 5px 5px;
 }
 .label.important {
   background-color: #c43c35;
@@ -2431,11 +2474,14 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 .media-grid a {
   float: left;
   padding: 4px;
-  margin: 0 0 14px 20px;
+  margin: 0 0 20px 20px;
   border: 1px solid #ddd;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  -webkit-border-radius: 4px 5px 5px 5px;
+  -moz-border-radius: 4px 5px 5px 5px;
+  border-radius: 4px 5px 5px 5px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -2478,6 +2524,9 @@ textarea {
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
+  -webkit-border-radius: 9px 5px 5px 5px;
+  -moz-border-radius: 9px 5px 5px 5px;
+  border-radius: 9px 5px 5px 5px;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
@@ -2498,6 +2547,9 @@ textarea {
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
   border-radius: 9px;
+  -webkit-border-radius: 9px 9px 0px 0px;
+  -moz-border-radius: 9px 9px 0px 0px;
+  border-radius: 9px 9px 0px 0px;
 }
 .topbar .btn {
   border: 0;
@@ -2508,6 +2560,7 @@ textarea {
   margin-bottom: 15px;
 }
 .topbar-inner {
+  background-color: #000000;
   background-color: #000000;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#4d4d4d), to(#000000));
@@ -2539,6 +2592,7 @@ textarea {
 }
 #gradient-bars .green {
   background-color: #183a18;
+  background-color: #183a18;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#46a546), to(#183a18));
   background-image: -moz-linear-gradient(top, #46a546, #183a18);
@@ -2554,6 +2608,7 @@ textarea {
   background-color: #183a18;
 }
 #gradient-bars .black {
+  background-color: #000000;
   background-color: #000000;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#4d4d4d), to(#000000));
@@ -2579,6 +2634,7 @@ textarea {
 }
 #gradient-bars .lightblue {
   background-color: #339bb9;
+  background-color: #339bb9;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#5bc0de), to(#339bb9));
   background-image: -moz-linear-gradient(top, #5bc0de, #339bb9);
@@ -2593,6 +2649,7 @@ textarea {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 #gradient-bars .darkblue_old {
+  background-color: #212d39;
   background-color: #212d39;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#425865), to(#212d39));
@@ -2622,6 +2679,7 @@ textarea {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 #gradient-bars .darkblue {
+  background-color: #111416;
   background-color: #111416;
   background-repeat: repeat-x;
   background-image: -khtml-gradient(linear, left top, left bottom, from(#55626b), to(#111416));
@@ -2700,6 +2758,9 @@ textarea {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0 5px 5px 5px;
+  -moz-border-radius: 4px 4px 0 0 5px 5px 5px;
+  border-radius: 4px 4px 0 0 5px 5px 5px;
 }
 .menu > li > a:hover {
   text-decoration: none;
@@ -2719,6 +2780,9 @@ textarea {
   -webkit-border-radius: 0 6px 6px 6px;
   -moz-border-radius: 0 6px 6px 6px;
   border-radius: 0 6px 6px 6px;
+  -webkit-border-radius: 0 6px 6px 6px 5px 5px 5px;
+  -moz-border-radius: 0 6px 6px 6px 5px 5px 5px;
+  border-radius: 0 6px 6px 6px 5px 5px 5px;
 }
 .menu a.menu:after, .menu .dropdown-toggle:after {
   border-top-color: #999;
@@ -2771,6 +2835,9 @@ textarea {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  -webkit-border-radius: 2px 5px 5px 5px;
+  -moz-border-radius: 2px 5px 5px 5px;
+  border-radius: 2px 5px 5px 5px;
   color: #666;
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-image: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#f5f5f5), to(#f1f1f1));
