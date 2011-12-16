@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} >> Admin{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+		<h1>{{ post_type|capitalize|e }} <small>All Posts</small></h2>
+	</div>
+	<div class="page-menu">
+		<ul class="menu">
+			<li><a href="#" class="btn flat"><input type="checkbox"></a></li>
+			<li><a href="#" class="btn flat">New</a></li>
+			<li><a href="#" class="btn flat">Edit</a></li>
+			<li><a href="#" class="btn flat active">Delete</a></li>
+		</ul>
+	</div>
+	<div class="row">
+		<div class="span16">
+			<table id="admin_posts" class="zebra-striped">
+				<tbody>
+				{% for post in posts %}
+					<tr>
+						<td><b>{{ post.title|e }}</b></td>
+						<td><span class="label {{ post.status }}">{{ post.status }}</span></td>
+						<td>{{ post.pubdate|timesince }}</td>
+						<td>{{ post.author }}</td>
+						<td>
+							<a href="/admin/posts/edit/{{ post.key() }}" class="btn centered inline">Edit</a>&nbsp;
+							<a href="/{{ post.stub }}" class="btn inline">View</a>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
