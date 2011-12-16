@@ -188,21 +188,34 @@ def setup(template_paths={}, autoescape=False, cache_size=100, auto_reload=True,
   if bytecode_cache and GAE_CACHE:
     _jinja_env.bytecode_cache = GAEMemcacheBytecodeCache()
 
-  if len(template_paths) > 1:
-    loaders = {}
-    for dirn, path in template_paths.items():
-      loaders[dirn] = jinja2.FileSystemLoader(path)
-      # logging.info('jinja: add loader: %s %s' % (dirn, path))
-    _jinja_env.loader = SubdirLoader(loaders)
-  else:
-    tp = template_paths['app']
+  logging.info('Loading jina')
+  logging.info(template_paths)
+
+  if len(template_paths) < 1:
+    logging.exception('Sketch: jinja.setup: no template sets configured')
+    return False
+
+  if len(template_paths) == 1:
+    template_set_name = template_paths.keys()[0]
+    tp = template_paths[template_set_name]
     if tp in _jinja_loaders:
       _jinja_env.loader = _jinja_loaders[tp]
     else:
       _jinja_env.loader = _jinja_loaders[tp] = jinja2.FileSystemLoader(tp)
+    return True
+      
+  if len(template_paths) > 1:
+    loaders = {}
+    for dirn, path in template_paths.items():
+      loaders[dirn] = jinja2.FileSystemLoader(path)
+    _jinja_env.loader = SubdirLoader(loaders)
+    return True
+
+  logging.error('Sketch: jinja.setup: no template sets configured (fallthrough)')
+  logging.error(_jinja_loaders)
 
 
-def render(template_name, vars={}, template_set='app', template_theme=None):
+def render(template_name, vars={}, template_set='site', template_theme=None):
   """Given a template path, a template name and template variables
   will return rendered content using jinja2 library
   
@@ -225,7 +238,7 @@ def render(template_name, vars={}, template_set='app', template_theme=None):
   _jinja_env.filters['dtformat'] = datetimeformat
   _jinja_env.filters['timestamp'] = timestamp
   
-  _template_name = "app:%s.html" % (template_name)
+  _template_name = "%s:%s.html" % (template_set, template_name)
   template = _jinja_env.get_template(_template_name, parent=template_theme)
   
   return template.render(vars)
