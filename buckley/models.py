@@ -96,16 +96,20 @@ class Post(sketch.db.Model):
     return self.fetch_cached("select * from Post where post_type='page' and status='published'", num, cached)
 
   @classmethod
+  def get_pages_menu(self, num=100, cached=True):
+    return self.fetch_cached("selct * from Post where post_type='page' and status='published' and menu=True")
+
+  @classmethod
   def get_posts_published(self, num=10, cached=True):
     return self.fetch_cached("select * from Post where post_type='post' and status='published' order by pubdate DESC", num, cached)
 
   @classmethod
-  def is_page(self, stub):
-    return self.fetch_cached("select * from Post where post_type='page' and stub='%s'" % stub)
+  def is_post(self, stub):
+    return self.fetch_cached("select * from Post where post_type='post' and stub='%s' limit 1" % stub, 1)
 
   @classmethod
   def is_page(self, stub):
-    return self.fetch_cached("select * from Post where post_type='page' and stub='%s'" % stub)
+    return self.fetch_cached("select * from Post where post_type='page' and stub='%s' limit 1" % stub, 1)
 
   @classmethod
   def get_posts_for_month(month, year):

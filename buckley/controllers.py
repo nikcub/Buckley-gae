@@ -5,23 +5,47 @@ import buckley
 
 from sketch.exception import NotFound
 from google.appengine.api import memcache
-from buckley.models import Post
+
+class Page(buckley.BaseController):
+  def get(self, stub):
+    page_obj = buckley.models.Post.is_page(stub)
+
+    if not page_obj:
+      raise NotFound()
+    
+    return self.render('page', {
+      'page': page_obj
+    })
+    
+
+class Post(buckley.BaseController):
+  def get(self, stub):
+    post_obj = buckley.models.Post.is_post(stub)
+    
+    if not post_obj:
+      raise NotFound()
+    
+    return self.render('single', {
+      'post': post_obj
+    })
 
 class Index(buckley.BaseController):
   def get(self, path=None, page=None):
     cache = self.request.get('cache', False)
     defaults = [None, '', 'index']
 
-
     if page:
-      page = Post.is_page(page)
-      logging.info(page)
-      return self.render('page', {
-        'page': page[0]
-      })
+      page_obj = buckley.models.Post.is_page(page)
+      if page_obj:
+      
+        return self.render('page', {
+          'page': page_obj[0]
+        })
+      else:
+        logging.info('not a page')
       
     if path in defaults:
-      posts = Post.get_posts_published(10, cache)
+      posts = buckley.models.Post.get_posts_published(10, cache)
       return self.render('index', {
         'posts': posts,
         'tab_blog': True
@@ -32,9 +56,9 @@ class Index(buckley.BaseController):
       if page_cache:
         return self.render_content(page_cache)
     
-    p, src = Post.stub_exists(path, cache)
+    p, src = buckley.models.Post.stub_exists(path, cache)
     if p:
-      posts = Post.get_single_by_stub(path)
+      posts = buckley.models.Post.get_single_by_stub(path)
       logging.info('get_single_by_stub')
       logging.info(p[0].title)
       logging.info(src)
@@ -44,14 +68,14 @@ class Index(buckley.BaseController):
         'src': src,
       })
     elif path == "archive":
-      posts, src = Post.get_posts_published_cached(5, cache)
+      posts, src = buckley.models.Post.get_posts_published_cached(5, cache)
       return self.render('archive', {
         'posts': posts,
         'tab_blog': True,
         'src': src,
       })
     elif Post.is_key(path):
-      posts = Post.get_single_by_key(path)
+      posts = buckley.models.Post.get_single_by_key(path)
       return self.render('single', {
         'post': posts,
         'tab_blog': True

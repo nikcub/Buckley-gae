@@ -16,7 +16,7 @@ routes = [
   
   # main blog
   r(r'/feed(.*)', 'buckley.feed.Main'),
-  r(r'/posts/<path>', 'buckley.controllers.Index', 'webwall-index'),
-  r(r'/<page>', 'buckley.controllers.Index'),
+  r(r'/posts/<stub>', 'buckley.controllers.Post', 'webwall-index'),
+  r(r'/<stub>', 'buckley.controllers.Page'),
   r(r'/', 'buckley.controllers.Index', 'webwall-index'),
 ]
