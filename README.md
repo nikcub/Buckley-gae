@@ -1,5 +1,7 @@
 # Buckley
 
+*Version 0.2.1* Saturday, 12th December 2011
+
 A blogging tool built for Google App Engine with the goal of social integration, high performance and flexibility
 
 Blogging rebooted for 2011
