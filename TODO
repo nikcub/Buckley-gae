@@ -1,0 +1,4 @@
+
+@TODO configure app-2.7.yaml for appengine python 2.7
+@TODO merge main.py and buckley.py with command line and WSGI support
+@TODO integrate sketch users as well as GAE users
