@@ -54,7 +54,13 @@ def html1(s):
  
     return UNSAFE_bless(escaped) # Now it’s escaped, so should be safe
 
-
+def force_int(val, default=False):
+  try:
+    val = int(val)
+    return val
+  except TypeError:
+    return default
+    
 def python_websafe(text):
   return text.replace('&', "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
