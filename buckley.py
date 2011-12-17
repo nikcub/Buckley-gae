@@ -23,7 +23,7 @@
   :license: new BSD, see LICENSE for more details.
 """
 
-__version__ = '0.0.2'
+__version__ = '0.2.1'
 __author__ = 'Nik Cubrilovic <nikcub@gmail.com>'
 
 import os
