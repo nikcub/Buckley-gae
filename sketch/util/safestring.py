@@ -55,6 +55,8 @@ def html1(s):
     return UNSAFE_bless(escaped) # Now it’s escaped, so should be safe
 
 def force_int(val, default=False):
+  if isinstance(val, (int)):
+    return val
   try:
     val = int(val)
     return val
