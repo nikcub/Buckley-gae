@@ -1,4 +1,18 @@
 
+@TODO figure out page caching ontop of model caching
+@TODO finish statuses
+@TODO twitter + facebook integration
+
+
+@TODO	categories
+
+@TODO	export / import
+
+@TODO	comments / users / moderation
+
+@TODO	support multiple URLs (ie. stub changed) with list of 'old' to match and redirect
+		404 matching 
+
 @TODO configure app-2.7.yaml for appengine python 2.7
 @TODO merge main.py and buckley.py with command line and WSGI support
 @TODO integrate sketch users as well as GAE users

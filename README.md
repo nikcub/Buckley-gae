@@ -98,14 +98,3 @@ This should be before the default route.
 
 ## Templates
 
-
-## Todo
-
-@TODO	categories
-
-@TODO	export / import
-
-@TODO	comments / users / moderation
-
-@TODO	support multiple URLs (ie. stub changed) with list of 'old' to match and redirect
-
