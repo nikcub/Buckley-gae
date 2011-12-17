@@ -23,6 +23,8 @@ class Model(db.Model):
       dat_key = "models.%s" % base64.b64encode(query)
       dat = memcache.get(dat_key)
       if dat is not None and cached:
+        if num == 1:
+          return dat[0]
         return dat[:num]
       try:
         query = db.GqlQuery(query)
@@ -31,6 +33,8 @@ class Model(db.Model):
         resultset = query.fetch(num)
         if resultset and type(resultset) == type([]):
           r = memcache.set(dat_key, resultset, 60 * 60)
+          if num == 1:
+            return resultset[0]
           return resultset
         return []
       except Exception, e:
