@@ -41,8 +41,12 @@ class BaseController(sketch.BaseController):
     buckley = {
       'title': self.config.title,
       'description': self.config.description,
+      'homepage': self.config.homepage,
       'owner': self.config.owner,
       'frontpage_posts': self.config.frontpage_posts,
+      'feed_posts': self.config.feed_posts,
+      'feed_full': self.config.feed_full,
+      'feed_url': self.config.feed_url,
       'src': 'database'
     }
     return buckley
