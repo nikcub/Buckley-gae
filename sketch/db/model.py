@@ -1,6 +1,7 @@
 from google.appengine.ext import db
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 from google.appengine.api import memcache
+from google.appengine.ext.db import Error as DBError, BadQueryError, BadKeyError, BadPropertyError
 from sketch.util.safestring import force_int
 
 import base64
@@ -25,31 +26,38 @@ class Model(db.Model):
       num = force_int(num, 100)
       if page > 1:
         offset = page * num
-        query += " OFFSET %d " % offset
-      query += " LIMIT %d" % num
-      logging.info('sketch.mode.fetch_cached: %s' % query)
+        query += " offset %d " % offset
+      if not query.find(' limit '):
+        query += " limit %d" % num
+      # logging.info('sketch.mode.fetch_cached: %s' % query)
       dat_key = "models.%s" % base64.b64encode(query)
       dat = memcache.get(dat_key)
       if dat is not None and cached:
-        logging.info('cache hit')
+        # logging.info('cache hit')
         if num == 1:
           return dat[0]
         return dat[:num]
       try:
         query = db.GqlQuery(query)
         if query.count() == 0:
-          logging.info('return on')
+          # logging.info('return on')
           return []
         resultset = query.fetch(num)
-        logging.info(len(resultset))
+        # logging.info(len(resultset))
         if resultset and type(resultset) == type([]):
           r = memcache.set(dat_key, resultset, 60 * 60)
           if num == 1:
             return resultset[0]
           return resultset
         return []
+      except BadQueryError, e:
+        logging.error('DB query error: %s in query: %s' % (str(e), query))
+        return []        
+      except DBError, e:
+        logging.error('DB generic error: %s' % (str(e)))
+        return []
       except Exception, e:
-        logging.exception('Sketch: model: query error', e)
+        logging.exception('DB generic: bad error: %s' % (str(e)))
         return []
 
     @classmethod
