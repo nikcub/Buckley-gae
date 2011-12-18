@@ -101,7 +101,7 @@ class Post(sketch.db.Model):
 
   @classmethod
   def get_posts_published(self, num=10, cached=True, page=1):
-    return self.fetch_cached("select * from Post where post_type='post' and status='published' order by pubdate DESC", num, cached, page=page)
+    return self.fetch_cached("select * from Post where post_type='post' and status='published' order by pubdate DESC", num, cached=cached, page=page)
 
   @classmethod
   def is_post(self, stub):

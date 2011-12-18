@@ -24,25 +24,23 @@ class Model(db.Model):
     def fetch_cached(self, query, num=100, cached=True, page=1):
       page = force_int(page, 1)
       num = force_int(num, 100)
+      offset = 0   
       if page > 1:
-        offset = page * num
-        query += " offset %d " % offset
-      if not query.find(' limit '):
-        query += " limit %d" % num
-      # logging.info('sketch.mode.fetch_cached: %s' % query)
+        offset = (page - 1) * num
+      logging.info('sketch.mode.fetch_cached: %s' % query)
       dat_key = "models.%s" % base64.b64encode(query)
       dat = memcache.get(dat_key)
       if dat is not None and cached:
-        # logging.info('cache hit')
+        logging.info('cache hit')
         if num == 1:
           return dat[0]
-        return dat[:num]
+        return dat[offset:offset + num]
       try:
         query = db.GqlQuery(query)
         if query.count() == 0:
           # logging.info('return on')
           return []
-        resultset = query.fetch(num)
+        resultset = query.fetch(num, offset)
         # logging.info(len(resultset))
         if resultset and type(resultset) == type([]):
           r = memcache.set(dat_key, resultset, 60 * 60)
