@@ -93,9 +93,6 @@ class BaseController(RequestHandler):
 
     prettyPrint = bool(self.request.get('prettyPrint', False))
     
-    if hasmethod(self, 'template_wrapper'):
-      passed_vars = self.template_wrapper(variables = passed_vars)
-    
     if response_type == 'json':
       return self.render_json(passed_vars, response_code)
     else:
@@ -127,7 +124,7 @@ class BaseController(RequestHandler):
       headers['Content-Type'] = "application/json; charset=utf-8"
     self.render_content(content, response_code, headers)
 
-  def render_content(self, content, response_code = 200, headers = []):
+  def render_content(self, content, response_code=200, headers=[]):
     """The actual function that will render content back into the response
     
     :param content: Content to be rendered
@@ -136,7 +133,7 @@ class BaseController(RequestHandler):
     """
     self.response.clear()
     if len(headers) > 0:
-      for hn, hv in headers.iteritems():
+      for hn, hv in headers:
         self.response.headers[hn] = hv
     self.response.set_status(response_code)
     self.response.write(content)
@@ -147,6 +144,18 @@ class BaseController(RequestHandler):
         'code': '%d - %s' % (code, self.response.http_status_message(code)),
         'message': message
     }, code, template_set='sketch', template_theme='default')
+
+
+  def render_feed(self, template_name, template_vars):
+    template_extension = 'xml'
+    template_vars['buildDate'] = datetime.datetime.now()
+    jinja.setup(self.config.paths.template_sets)
+    template_vars = self.get_template_vars(template_vars)
+    template_set = self.get_template_set()
+    template_theme = self.get_template_theme(template_set)
+    content = jinja.render(template_name, template_vars, template_theme=template_theme, template_set=template_set, template_extension=template_extension)    
+    headers = [('Content-Type', "application/%s; charset=utf-8" % ('xml'))]
+    return self.render_content(content, 200, headers)
 
 
   def render_admin(self, template_name, vars):
@@ -214,9 +223,9 @@ class BaseController(RequestHandler):
     raise Exception('no template theme specified')
 
 
-  def get_template_vars(self, vars):
-    if type(vars) != dict:
-      vars = {'_vars': vars}
+  def get_template_vars(self, template_vars):
+    if type(template_vars) != dict:
+      template_vars = {'_vars': template_vars}
       
     additional = {
       # 'session': self.session,
@@ -236,10 +245,13 @@ class BaseController(RequestHandler):
     #   additional['message_type'] = self.message_type
     #   additional['message_class'] = self.message_class
 
+    if hasmethod(self, 'template_wrapper'):
+      template_vars = self.template_wrapper(variables=template_vars)
+      
     additional = self.get_javascripts(additional)
     additional = self.get_styles(additional)
 
-    return dict(vars, **additional)
+    return dict(template_vars, **additional)
 
 
   def render_blob(self, blob_key_or_info, filename=None):
