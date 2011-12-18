@@ -95,7 +95,8 @@ class Posts(buckley.AdminController):
         post.publish()
         
       if post.put():
-        self.redirect('/admin/%s/edit/%s' % (ptype, post.key() + '?success'))
+        memcache.flush_all()
+        self.redirect('/admin/%s/edit/%s' % (ptype, str(post.key()) + '?success'))
       else:
         raise sketch.exception.NotFound()
     else:      
