@@ -15,8 +15,12 @@ routes = [
   r(r'/admin<path:.*>', 'buckley.admin.Index', 'webwall-admin'),
   
   # main blog
-  r(r'/feed(.*)', 'buckley.feed.Main'),
-  r(r'/posts/<stub>', 'buckley.controllers.Post', 'webwall-index'),
-  r(r'/<stub>', 'buckley.controllers.Page'),
-  r(r'/', 'buckley.controllers.Index', 'webwall-index'),
+  r(r'/feed/<format:(rss|rss2|atom)>', 'buckley.controllers.Feed', 'blog-feed'),
+  r(r'/feed', 'buckley.controllers.Feed', 'blog-feed'),
+  r(r'/archive', 'buckley.controllers.Archive', 'blog-archive'),
+  r(r'/archive/<page:\d+>', 'buckley.controllers.Archive', 'blog-archive'),
+  r(r'/page/<page:\d+>', 'buckley.controllers.Index', 'blog-page'),
+  r(r'/posts/<stub>', 'buckley.controllers.Post', 'blog-post'),
+  r(r'/<stub>', 'buckley.controllers.Page', 'blog-page'),
+  r(r'/', 'buckley.controllers.Index', 'blog-index'),
 ]
