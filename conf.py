@@ -5,6 +5,9 @@
 title = 'Example Buckley Blog'
 description = 'A description or subheading'
 frontpage_posts = 10
+feed_posts = 10
+feed_url = 'http://feeds.feedburner.com/NewWebOrder'
+homepage = 'http://nikcub.appspot.com'
 owner = 'nik cubrilovic'
 template = 'default'
 permalinks = {
