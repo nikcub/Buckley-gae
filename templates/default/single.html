@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}{{ buckley.title }} - {{ post.title }}{% endblock %}
+{% block title %}{{ buckley.title|e }} - {{ post.title|e }}{% endblock %}
 
 {% block content %}
 {% if post %}
 <article> 
 	<header> 
-		<h1>{{ post.title }}</h1> 
+		<h1>{{ post.title|e }}</h1> 
 		{% if post.pubdate %}
-		<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|date("jS F Y") }}</time>
+		<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|date("jS F Y")|e }}</time>
 		{% endif %}
 	</header>
 	{% if post.subtitle %}
-		<div class="subtitle">{{ post.subtitle }}</div>
+		<div class="subtitle">{{ post.subtitle|e }}</div>
 	{% endif %}	
 	{{ post.content_html }}
-	<a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">#</a>
+	<a href="{{ post.url }}" rel="bookmark" title="{{ post.title|e }}">#</a>
 </article>
 {% endif %}
 {% endblock %}

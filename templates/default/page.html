@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}{{ buckley.title }} - {{ page.title }}{% endblock %}
+{% block title %}{{ buckley.title|e }} - {{ page.title|e }}{% endblock %}
 
 {% block content %}
 {% if page %}
 <article> 
 	<header> 
-		<h1>{{ page.title }}</h1> 
+		<h1>{{ page.title|e }}</h1> 
 	</header>
 	{% if page.subtitle %}
-		<div class="subtitle">{{ page.subtitle }}</div>
+		<div class="subtitle">{{ page.subtitle|e }}</div>
 	{% endif %}	
 	{{ page.content_html }}
 </article>

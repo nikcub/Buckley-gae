@@ -2,21 +2,21 @@
 <html lang="en" dir="ltr">
 <head>
 	<meta charset="utf-8">
-	<title>{% block title %}{{ buckley.title }}{% endblock %}</title>
+	<title>{% block title %}{{ buckley.title|e }}{% endblock %}</title>
 	<meta name="application-name" content="buckley">
-	<meta name="author" value="{{ buckley.owner }}">
-	<meta name="description" value="{{ buckley.description }}">
+	<meta name="author" value="{{ buckley.owner|e }}">
+	<meta name="description" value="{{ buckley.description|e }}">
 	<meta name="generator" value="Buckley v0.2.3">
-	<meta name="source" value="buckley.template.{{ buckley.src }}">	
+	<meta name="source" value="buckley.template.{{ buckley.src|e }}">	
 	<link id="css-core" rel="stylesheet" href="{{ static.css_file }}" type="text/css">
-	<link id="feed-atom" rel="alternate" href="{{ buckley.feed_url }}" type="application/atom+xml" title="{{ buckley.title }}">
-	<link id="feed-rss" rel="alternate" href="{{ buckley.feed_url }}" type="application/rss+xml" title="{{ buckley.title }}">
+	<link id="feed-atom" rel="alternate" href="{{ buckley.feed_url }}" type="application/atom+xml" title="{{ buckley.title|e }}">
+	<link id="feed-rss" rel="alternate" href="{{ buckley.feed_url }}" type="application/rss+xml" title="{{ buckley.title|e }}">
 </head>
 <body>
 <div class="topbar"> 
 <div class="fill"> 
 <div class="container"> 
-	<h3><a href="/">{{ buckley.title }}</a></h3> 
+	<h3><a href="/">{{ buckley.title|e }}</a></h3> 
 	<ul>
 		{% if admin %}<li><a href="/admin">Admin</a></li>{% endif %}
 		<li {% if tab_blog %}class="active"{% endif %}><a href="/">Blog</a></li> 
@@ -37,7 +37,7 @@
 		{% if pages %}
 			<h5>Pages</h5>
 			{% for page in pages %}
-				<p><a href="{{ page.url }}">{{ page.title }}</a></p>
+				<p><a href="{{ page.url }}">{{ page.title|e }}</a></p>
 			{% endfor %}
 		{% endif %}
 	
@@ -50,9 +50,9 @@
 </div>
 <div class="container">
 	<footer>
-		<p>&copy; 2011 {{ buckley.owner }} | 
+		<p>&copy; 2011 {{ buckley.owner|e }} | 
 			{% if user.loggedin %}
-				@{{ user.nickname }} <a href="{{ user.logout }}" alt="login" rel="nofollow">Logout</a>
+				@{{ user.nickname|e }} <a href="{{ user.logout }}" alt="login" rel="nofollow">Logout</a>
 			{% else %}
 				<a href="{{ user.login }}" alt="login" rel="nofollow">Login</a>
 			{% endif %}

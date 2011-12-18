@@ -5,14 +5,14 @@
 	<article> 
 		<header> 
 			<h1> 
-				<a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title }}</a> 
+				<a href="{{ post.url }}" rel="bookmark" title="{{ post.title }}">{{ post.title|e }}</a> 
 			</h1>
 			{% if post.pubdate %}
-			<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|date("l, jS F Y") }}</time>
+			<time datetime="{{ post.pubdate|date("Y-m-d") }}" pubdate>{{ post.pubdate|date("l, jS F Y")|e }}</time>
 			{% endif %}
 		</header>
 		{% if post.subtitle %}
-			<div class="subtitle">{{ post.subtitle }}</div>
+			<div class="subtitle">{{ post.subtitle|e }}</div>
 		{% endif %}		
 		{{ post.get_excerpt }}
 		{% if post.has_excerpt %}
