@@ -214,7 +214,7 @@ def setup(template_paths={}, autoescape=False, cache_size=100, auto_reload=True,
   logging.error(_jinja_loaders)
 
 
-def render(template_name, vars={}, template_set='site', template_theme=None):
+def render(template_name, vars={}, template_set='site', template_theme=None, template_extension='html'):
   """Given a template path, a template name and template variables
   will return rendered content using jinja2 library
   
@@ -238,7 +238,7 @@ def render(template_name, vars={}, template_set='site', template_theme=None):
   _jinja_env.filters['timestamp'] = timestamp
   _jinja_env.filters['checkbox'] = bool_to_checkbox
   
-  _template_name = "%s:%s.html" % (template_set, template_name)
+  _template_name = "%s:%s.%s" % (template_set, template_name, template_extension)
   template = _jinja_env.get_template(_template_name, parent=template_theme)
   
   return template.render(vars)
