@@ -14,8 +14,8 @@
 		{% if post.subtitle %}
 			<div class="subtitle">{{ post.subtitle }}</div>
 		{% endif %}		
-		{{ post.get_excerpt }} >>
-		{% if post.is_excerpt %}
+		{{ post.get_excerpt }}
+		{% if post.has_excerpt %}
 			<a href="{{ post.url }}">Continue reading >></a>
 		{% endif %}
 	</article>

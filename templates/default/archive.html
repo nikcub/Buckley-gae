@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}{{ title }} > Archive{% endblock %}
+{% block title %}{{ buckley.title }} > Archive{% endblock %}
 
 {% block content %}
+<h1>Archive - Page {{ page }}</h1>
 {% for post in posts %}
 	<article> 
 		<header> 

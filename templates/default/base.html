@@ -6,10 +6,11 @@
 	<meta name="application-name" content="buckley">
 	<meta name="author" value="{{ buckley.owner }}">
 	<meta name="description" value="{{ buckley.description }}">
-	<meta name="generator" value="Buckley v0.2">
+	<meta name="generator" value="Buckley v0.2.3">
 	<meta name="source" value="buckley.template.{{ buckley.src }}">	
 	<link id="css-core" rel="stylesheet" href="{{ static.css_file }}" type="text/css">
-	<link id="feed-atom" rel="alternate" href="/feed" type="application/atom+xml" title="Feed">
+	<link id="feed-atom" rel="alternate" href="{{ buckley.feed_url }}" type="application/atom+xml" title="{{ buckley.title }}">
+	<link id="feed-rss" rel="alternate" href="{{ buckley.feed_url }}" type="application/rss+xml" title="{{ buckley.title }}">
 </head>
 <body>
 <div class="topbar"> 
