@@ -463,7 +463,7 @@ class RequestHandler(object):
     @TODO do not trust the referrer - use session info
     """
     re = self.request.environ.get('HTTP_REFERER', '/')
-    self.redirect(re + msg, code = 303, permanent=False)
+    self.redirect(re + '?' + msg, code = 303, permanent=False)
 
 
   def url_for(self, _name, *args, **kwargs):
