@@ -2498,4 +2498,8 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 }
 .topbar {
   position: relative;
+  margin-bottom: 10px;
+}
+footer {
+  text-align: center;
 }
