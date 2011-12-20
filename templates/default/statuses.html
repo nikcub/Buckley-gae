@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for status in statuses %}
+	<h1>Statuses <small><a href="/feed/microblog">feed</a></small></h1>
+	<article> 
+		<header> 
+			<h4> 
+				<a href="{{ status.url }}" rel="bookmark" title="{{ status.title }}">{{ status.title|e }}</a> 
+			</h4>
+		</header>
+		{% if status.subtitle %}
+			<div class="subtitle">{{ status.subtitle|e }}</div>
+		{% endif %}		
+		{% if status.has_excerpt %}
+			{{ status.get_excerpt }}
+		{% endif %}
+		<p class="postmeta">
+		{% if status.pubdate %}
+			<time datetime="{{ status.pubdate|date("Y-m-d") }}" pubdate>{{ status.pubdate|timesince }} ago</time>
+		{% endif %}
+		</p>
+	</article>
+{% endfor %}
+{% endblock %}

@@ -38,13 +38,15 @@ from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
 class Post(sketch.db.Model):
   author = db.UserProperty()
-  title = db.StringProperty(required=True)
+  title = db.StringProperty()
   subtitle = db.StringProperty()
   excerpt = db.TextProperty()
   excerpt_html = db.TextProperty()
   content = db.TextProperty()
   content_html = db.TextProperty()
-  post_type = db.StringProperty(choices = set(['post', 'status', 'page']))
+  content_link = db.StringProperty()
+  content_link_short = db.StringProperty()
+  post_type = db.StringProperty(choices = set(['post', 'status', 'link', 'page']))
   status = db.StringProperty(required=True, choices = set(['draft', 'scheduled', 'published']))
   categories = db.ListProperty(db.Category)
   order = db.IntegerProperty()
@@ -63,17 +65,25 @@ class Post(sketch.db.Model):
       base = '/status'
     else:
       base = ''
-    return "%s/%s" % (base, self.stub)
+    if self.stub:
+      link = self.stub
+    else:
+      link = self.key()
+    return "%s/%s" % (base, link)
   
   @property
   def get_excerpt(self):
     if self.excerpt_html:
       return self.excerpt_html
-    return self.content_html
+    if self.content_html:
+      return self.content_html
+    return ''
 
   @property
   def has_excerpt(self):
     if self.excerpt_html:
+      return True
+    if self.content_html:
       return True
     return False
 

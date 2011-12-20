@@ -9,7 +9,7 @@ from google.appengine.api import memcache
 from google.appengine.api import users
 from google.appengine.ext import db
 from buckley.models import Post
-
+from sketch.vendor.embedly import Embedly
 from sketch.vendor.markdown import markdown
 
 class Index(buckley.AdminController):
@@ -26,14 +26,55 @@ class Settings(buckley.AdminController):
   def post(self):
     self.render_error('not yet implemented')
 
-class Status(buckley.AdminController):
-  
+class Statuses(buckley.AdminController):
   def get(self, action=None, key=None):
-    pass
+    if action:
+      if action == 'delete':
+        status = Post.get_single_by_key(key)
+        status.delete()
+        return self.redirect_back('deleted')
+      return self.redirect_back('noaction')
+    posts = Post.get_statuses(num=100, cached=False)
+    self.render('statuses', {
+      'posts': posts,
+      'post_type': 'status'
+    })
     
   def post(self, action=None, key=None):
-    pass
+    title = self.request.get('title', '').encode('ascii', 'ignore')
+    link = self.request.get('link', '').encode('ascii', 'ignore')
+    _embedly = Embedly(dev_token=self.config.embedly_key)
     
+    logging.info('new post: %s' % title)
+    
+    if not title and not link:
+      return self.redirect_back('err')
+    
+    # get embed info
+    if link:
+      d = _embedly.get_embed(link)
+      logging.info(d)
+    
+    try:
+      categories = [db.Category('none')]
+      author = users.get_current_user()
+      now = datetime.datetime.now()
+      
+      status = Post(
+        author = author,
+        title = title,
+        content_link = link,
+        post_type = "status",
+        status = "published",
+        pubdate = now,
+        categories = categories
+      )
+      r = status.put()
+      self.redirect('/admin/status?new=%s' % (str(r)))
+    except Exception, e:
+      logging.exception(e)
+      return self.redirect_back('error')
+
 class Posts(buckley.AdminController):
   def extract_excerpt(self, content):
     pos = content.find("--")

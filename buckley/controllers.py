@@ -13,6 +13,17 @@ class Status(buckley.BaseController):
     pass
 
 class StatusIndex(buckley.BaseController):
+  def get(self, key=None):
+    if key:
+      statuses = [buckley.models.Post.get_single_by_key(key)]
+    else:
+      statuses = buckley.models.Post.get_statuses(num=50, cached=False)
+    return self.render('statuses', {
+      'statuses': statuses,
+      'tab_status': True
+    })
+
+class StatusAPI(buckley.BaseController):
   def get(self):
     pass
 
@@ -58,7 +69,7 @@ class Feed(buckley.BaseController):
     if not format:
       self.redirect('http://feeds.feedburner.com/NewWebOrder', permanent=True)
 
-    if not format in ['atom', 'rss', 'rss2', 'microblog']:
+    if not format in ['atom', 'rss', 'rss2']:
       raise NotFound()
 
     posts = buckley.models.Post.get_posts_published(num=self.config.feed_posts)
@@ -72,7 +83,20 @@ class Feed(buckley.BaseController):
       'pubdate': posts[0].pubdate,
       'now': datetime.datetime.now()
     })
-    
+
+class MicroblogFeed(buckley.BaseController):
+  template_set = 'app'
+  template_theme = 'feeds'
+
+  def get(self):
+    posts = buckley.models.Post.get_statuses_published(num=self.config.feed_statuses)
+
+    return self.render_feed('microblog', {
+      'posts': posts,
+      'pubdate': posts[0].pubdate,
+      'now': datetime.datetime.now()
+    })
+
 class Index(buckley.BaseController):
   def get(self):
     cache = self.request.get('cache', False)

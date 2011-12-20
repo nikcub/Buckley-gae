@@ -19,10 +19,11 @@
 	<div class="container">
 		<h3><a href="/">Buckley Admin</a></h3> 
 		<ul class="nav">
-			<li><a href="/admin">Settings</a></li>
+			<li><a href="/admin/status">Status</a></li>
 			<li><a href="/admin/posts">Posts</a></li>
 			<li><a href="/admin/pages">Pages</a></li>
 			<li><a href="/admin/cache">Cache</a></li>
+			<li><a href="/admin">Settings</a></li>			
 			{% if user.loggedin %}
 			<li><a href="#">@{{ user.nickname }}</a></li>
 			<li><a href="{{ user.logout }}">Logout</a></li>

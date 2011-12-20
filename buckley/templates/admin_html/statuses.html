@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} >> Admin{% endblock %}
+
+{% block content %}
+<article>
+	<header>
+		<h2>{{ post_type|capitalize }} <small><a href="/admin/{{ post_type }}/new">New {{ post_type|capitalize }} >></a></small></h2>
+	</header>
+	<table id="admin_posts">
+		<thead>
+		<tr>
+			<!-- <th><input type="checkbox" id="check_all"></td> -->
+			<th>Content</th>
+			<th>URL</th>
+			<th>Posted</th>
+			<th></td>
+		</tr>
+		</thead>
+		<tbody>
+		{% for post in posts %}
+			<tr class="{%- if post.featured %}featured{% endif %}">
+				<td>{{ post.title }}</td>
+				<td>
+				{% if post.content_link %}
+					<a href="{{ post.content_link }}">{{ post.content_link }}</a>
+				{% endif %}
+				</td>
+				<td>
+				{% if post.pubdate %}
+					{{ post.pubdate|date("r") }}
+				{% endif %}
+				</td>
+				<td><a href="/admin/status/delete/{{ post.key() }}" class="btn info">Delete</a></td>			
+		{% endfor %}
+		</tbody>
+	</table>
+</article>
+<article>
+	<header>
+		<h2>New {{ post_type|capitalize }}</h2>
+	</header>
+	<form method="post" action="/admin/status" id="admin_edit">
+		<fieldset>
+			<div class="clearfix">
+				<label for="title">Status</label>
+				<div class="input">
+					<input type="text" name="title" class="span11">
+				</div>
+			</div>
+			<div class="clearfix">
+				<label for="title">Link</label>
+				<div class="input">
+					<input type="text" name="link" class="span11">
+				</div>
+			</div>
+			<div class="actions">
+				<button type="submit" name="action" value="save" class="btn primary">post</button>
+       </div>
+		</fieldset>
+	</form>
+</article>
+{% endblock %}
