@@ -50,7 +50,7 @@ class Feed(buckley.BaseController):
     if not format:
       self.redirect('http://feeds.feedburner.com/NewWebOrder', permanent=True)
 
-    if not format in ['atom', 'rss', 'rss2']:
+    if not format in ['atom', 'rss', 'rss2', 'microblog']:
       raise NotFound()
 
     posts = buckley.models.Post.get_posts_published(num=self.config.feed_posts)
