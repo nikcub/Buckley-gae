@@ -27,8 +27,10 @@ __version__ = '0.2.1'
 __author__ = 'Nik Cubrilovic <nikcub@gmail.com>'
 
 import buckley
-  
+from sketch.util.gae import autoretry_datastore_timeouts
+
 def main():
+  autoretry_datastore_timeouts()
   buckley.app.run_appengine()
 
 if __name__ == '__main__':
