@@ -8,6 +8,7 @@ author = 'author'
 frontpage_posts = 10
 feed_posts = 10
 feed_full = True
+feed_statuses = 50
 feed_url = '/feed'
 template = 'default'
 plugins = {}
