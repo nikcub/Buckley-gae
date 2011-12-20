@@ -26,6 +26,14 @@ class Settings(buckley.AdminController):
   def post(self):
     self.render_error('not yet implemented')
 
+class Status(buckley.AdminController):
+  
+  def get(self, action=None, key=None):
+    pass
+    
+  def post(self, action=None, key=None):
+    pass
+    
 class Posts(buckley.AdminController):
   def extract_excerpt(self, content):
     pos = content.find("--")

@@ -8,6 +8,14 @@ from sketch.exception import NotFound
 from sketch.util.safestring import force_int
 from google.appengine.api import memcache
 
+class Status(buckley.BaseController):
+  def get(self, stub):
+    pass
+
+class StatusIndex(buckley.BaseController):
+  def get(self):
+    pass
+
 class Page(buckley.BaseController):
   def get(self, stub):
     page_obj = buckley.models.Post.is_page(stub)
