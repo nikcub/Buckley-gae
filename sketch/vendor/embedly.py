@@ -76,8 +76,8 @@ class Embedly(object):
 
     self.dev_token = dev_token
 
-  def get_embed(self, url, type="oembed"):
-    api_args = self.get_req_args(url)
+  def get_embed(self, url, type="oembed", maxwidth=None):
+    api_args = self.get_req_args(url, maxwidth=maxwidth)
     url = self.oembed_endpoint + '?' + api_args
 
     response = self.fetch(url)
@@ -111,6 +111,7 @@ class Embedly(object):
     api_arguments = {
       "key": self.dev_token,
       "url": url,
+      "maxwidth": 500
       # "tags": '1'
     }
     if format != 'json':
