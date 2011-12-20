@@ -55,10 +55,12 @@ except ImportError:
 
 class Embedly(object):
   _req_headers = {
-    "User-Agent": "py-diffbot v0.0.1 <+http://bitbucket.org/nik/py-diffbot>"
+    "User-Agent": "py-diffbot v0.0.1 <+http://bitbucket.org/nik/py-diffbot>",
+    "Connection": 'close'
   }
   _req_attempts = 3
-  base_url = "http://api.embed.ly/1/oembed"
+  oembed_endpoint = "http://api.embed.ly/1/oembed"
+  objectify_endpoint = "http://api.embed.ly/1/preview"
   req_params = {
     'url': None,
     'key': None,
@@ -74,9 +76,9 @@ class Embedly(object):
 
     self.dev_token = dev_token
 
-  def get_embed(self, url):
+  def get_embed(self, url, type="oembed"):
     api_args = self.get_req_args(url)
-    url = self.base_url + '?' + api_args
+    url = self.oembed_endpoint + '?' + api_args
 
     response = self.fetch(url)
 
@@ -87,11 +89,21 @@ class Embedly(object):
         logging.exception(e)
         return False
       return de
-
-    # logging.info(response)
-    logging.info('DONE!')
     return False
 
+  def get_objectify(self, url):
+    api_args = self.get_req_args(url)
+    url = self.objectify_endpoint + '?' + api_args
+    response = self.fetch(url)
+    if response:
+      try:
+        de = json_parse(response)
+      except Exception, e:
+        logging.exception(e)
+        return False
+      return de
+    return False
+    
   def get_req_args(self, url, maxwidth=None, format='json'):
     """Build request arguments for query string in API request. Defaults are
     to request JSON output format."""
