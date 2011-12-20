@@ -187,8 +187,9 @@ def setup(template_paths={}, autoescape=False, cache_size=100, auto_reload=True,
       auto_reload=auto_reload,
       bytecode_cache=None)
 
-  if bytecode_cache and GAE_CACHE:
-    _jinja_env.bytecode_cache = GAEMemcacheBytecodeCache()
+  # @TODO alter so Marshall is not used
+  # if bytecode_cache and GAE_CACHE:
+    # _jinja_env.bytecode_cache = GAEMemcacheBytecodeCache()
 
   if len(template_paths) < 1:
     logging.exception('Sketch: jinja.setup: no template sets configured')
