@@ -36,6 +36,28 @@ from google.appengine.ext import db
 from google.appengine.api import memcache
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
 
+class Image(sketch.db.Model):
+  dat = db.BlobProperty(default = None)
+  mimetype = db.StringProperty()
+  origurl = db.StringProperty()
+  size = db.IntegerProperty()
+  width = db.IntegerProperty()
+  height = db.IntegerProperty()
+
+class Source(sketch.db.Model):
+  name = db.StringProperty()
+  icon = db.ReferenceProperty(Image)
+  web = db.LinkProperty()
+  feed = db.LinkProperty()
+
+  @classmethod
+  def get_by_web(self, url):
+    query = db.GqlQuery("select * from Source where web = :1", url)
+    r= query.fetch(1)
+    if r:
+      return r[0]
+    return False
+
 class Post(sketch.db.Model):
   author = db.UserProperty()
   title = db.StringProperty()
@@ -44,9 +66,13 @@ class Post(sketch.db.Model):
   excerpt_html = db.TextProperty()
   content = db.TextProperty()
   content_html = db.TextProperty()
+  embed_html = db.TextProperty()
   content_link = db.StringProperty()
+  content_link_src = db.ReferenceProperty(Source)
   content_link_short = db.StringProperty()
+  thumbnail = db.ReferenceProperty(Image)
   post_type = db.StringProperty(choices = set(['post', 'status', 'link', 'page']))
+  status_type = db.StringProperty(choices = set(['link', 'text', 'article', 'video']))
   status = db.StringProperty(required=True, choices = set(['draft', 'scheduled', 'published']))
   categories = db.ListProperty(db.Category)
   order = db.IntegerProperty()
@@ -59,6 +85,8 @@ class Post(sketch.db.Model):
 
   @property
   def url(self):
+    if self.content_link:
+      return self.content_link
     if self.post_type == 'post':
       base = '/posts'
     elif self.post_type == 'status':
@@ -86,6 +114,18 @@ class Post(sketch.db.Model):
     if self.content_html:
       return True
     return False
+
+  @property
+  def has_thumbnail(self):
+    if self.thumbnail:
+      return True
+    return False
+
+  @property
+  def get_thumbnail(self):
+    if self.thumbnail:
+      return "<img src='%s' class='thumb' width='%d' height='%d'>" % (self.thumbnail.origurl, self.thumbnail.width, self.thumbnail.height)
+    return ''
 
   @property
   def has_subtitle(self):

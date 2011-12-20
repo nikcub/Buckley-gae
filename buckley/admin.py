@@ -8,7 +8,8 @@ import datetime
 from google.appengine.api import memcache
 from google.appengine.api import users
 from google.appengine.ext import db
-from buckley.models import Post
+from buckley.models import Post, Image, Source
+from sketch.util.feeds import find_icons, discover_feeds
 from sketch.vendor.embedly import Embedly
 from sketch.vendor.markdown import markdown
 
@@ -43,17 +44,80 @@ class Statuses(buckley.AdminController):
   def post(self, action=None, key=None):
     title = self.request.get('title', '').encode('ascii', 'ignore')
     link = self.request.get('link', '').encode('ascii', 'ignore')
+    content_html = ""
+    thumbnail = None
+    link_type = 'link'
+    embed_html = ""
+    source = None
     _embedly = Embedly(dev_token=self.config.embedly_key)
-    
-    logging.info('new post: %s' % title)
     
     if not title and not link:
       return self.redirect_back('err')
     
     # get embed info
-    if link:
-      d = _embedly.get_embed(link)
-      logging.info(d)
+    try:
+      if link:
+        _e = _embedly.get_embed(link)
+        embed = {}
+        logging.info(_e)
+        if type(_e) == type({}):
+          embed['title'] = _e['title']
+          embed['description'] = _e['description']
+          embed['url'] = _e['url']
+          embed['source'] = _e['provider_name']
+          link_type = _e['type']
+          if 'html' in _e:
+            embed_html = _e['html']
+          
+          title = embed['title']
+          content_html = "<p>" + embed['description'] + "</p>"
+          link = embed['url']
+          
+          source = Source.get_by_web(_e['provider_url'])
+          if not source:
+            logging.info('new source')
+            name = _e['provider_name']
+            src_icon = find_icons(_e['provider_url'])
+            logging.info(src_icon)
+            feed_url = discover_feeds(_e['provider_url'])
+            logging.info(feed_url)
+            
+            if src_icon:
+              icon = Image(
+                origurl = src_icon
+              )
+              icon.put()
+            else:
+              icon = None
+              
+            source = Source(
+              name = name,
+              web = _e['provider_url'],
+            )
+            if icon:
+              source.icon = icon.key()
+            if feed_url:
+              source.feed = feed_url
+            source.put()
+            
+          if 'thumbnail_url' in _e:
+            url = _e['thumbnail_url']
+            width = _e['thumbnail_width']
+            height = _e['thumbnail_height']
+            
+            thumbnail = Image(
+              origurl = url,
+              width = width,
+              height = height
+            )
+            r = thumbnail.put()
+          else:
+            logging.info('no thumb')
+        else:
+          embed = None
+    except Exception, e:
+      logging.exception(e)
+      embed = None
     
     try:
       categories = [db.Category('none')]
@@ -64,11 +128,18 @@ class Statuses(buckley.AdminController):
         author = author,
         title = title,
         content_link = link,
+        content_html = content_html,
+        embed_html = embed_html,
+        link_type = link_type,
         post_type = "status",
         status = "published",
         pubdate = now,
         categories = categories
       )
+      if source:
+        status.content_link_src = source.key()
+      if thumbnail:
+        status.thumbnail = thumbnail.key()
       r = status.put()
       self.redirect('/admin/status?new=%s' % (str(r)))
     except Exception, e:

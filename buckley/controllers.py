@@ -89,7 +89,7 @@ class MicroblogFeed(buckley.BaseController):
   template_theme = 'feeds'
 
   def get(self):
-    posts = buckley.models.Post.get_statuses_published(num=self.config.feed_statuses)
+    posts = buckley.models.Post.get_statuses_published(num=self.config.feed_statuses, cached=False)
 
     return self.render_feed('microblog', {
       'posts': posts,

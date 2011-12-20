@@ -1,21 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for status in statuses %}
 	<h1>Statuses <small><a href="/feed/microblog">feed</a></small></h1>
-	<article> 
+{% for status in statuses %}
+	<article class="status clearfix span11"> 
 		<header> 
-			<h4> 
-				<a href="{{ status.url }}" rel="bookmark" title="{{ status.title }}">{{ status.title|e }}</a> 
-			</h4>
+			<h5>
+							{% if status.content_link_src.icon %}
+				<img src="{{ status.content_link_src.icon.origurl }}" width="16" height="16">
+			{% endif %}
+				<a href="{{ status.url }}" rel="bookmark" title="{{ status.title }}">{{ status.title|e }}</a></h5>
 		</header>
+		
+		
+		<p class="source">
+			<a href="{{ status.content_link_src.web }}">
+
+			{{ status.content_link_src.name }}
+			</a>
+		</p>
+
+		{% if status.embed_html %}
+			{{ status.embed_html }}
+		{% else %}
+			{% if status.has_thumbnail %}
+				{{ status.get_thumbnail }}
+			{% endif %}	
+		{% endif %}
+		<p class="article_link"><a href="{{status.url}}">{{ status.url }}</a></p>
 		{% if status.subtitle %}
 			<div class="subtitle">{{ status.subtitle|e }}</div>
-		{% endif %}		
+		{% endif %}	
 		{% if status.has_excerpt %}
 			{{ status.get_excerpt }}
 		{% endif %}
 		<p class="postmeta">
+			<a href="#">Comment</a> - 
+			<a href="#">Share</a> - 
 		{% if status.pubdate %}
 			<time datetime="{{ status.pubdate|date("Y-m-d") }}" pubdate>{{ status.pubdate|timesince }} ago</time>
 		{% endif %}
