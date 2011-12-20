@@ -2503,3 +2503,10 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
 footer {
   text-align: center;
 }
+img.thumb {
+  float: left;
+  margin-right: 6px;
+}
+h5 > a {
+  color: black;
+}
