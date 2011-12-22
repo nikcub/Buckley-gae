@@ -107,6 +107,27 @@ This should be before the default route.
 ## Templates
 
 
+## Twitter and Facebook integration
+
+You will need to get your own app keys for Twitter and Facebook integration and include them in the config file.
+
+### Twitter
+
+ + Go to https://dev.twitter.com/apps/new
+ + Fill in name, description and website URL (put in your blog URL), leaving callback blank
+ + Agree to the terms, fill in the captcha (good luck) and hit submit
+ + You will need the 'consumer key' and 'consumer secret'
+
+Include them in `conf.py` in the root directory as follow:
+
+```python
+	auth_providers = {
+	  'twitter': {
+	    'key': 'TabZB0TUwlShH4zP8mQQ',
+	    'secret': 'yMs8UG9yQp2vM8B2VGEivFgutLk7nYXMiGbjh5T8HiU'
+	  }
+	}
+```
 ## Issues
 
 Have a bug? Please create an issue here on GitHub!
