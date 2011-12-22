@@ -20,6 +20,12 @@ appname = 'buckley'
 prepend_www = False
 user_agent = "Mozilla/5.0 (compatible; SketchBot/0.1; +http://nikcub.appspot.com/projects/sketch)"
 session_name = 'sess'
+homepage = ''
+owner =''
+template_themes = {
+  'site': 'default',
+  'admin': 'admin_html'
+}
 server_email = {
   'address': 'root@localhost',
   'host': 'localhost',
