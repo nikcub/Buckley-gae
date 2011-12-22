@@ -22,6 +22,14 @@ There will eventually be a one-click auto deploy and install, but it isn't there
  * Static output
  * Auto caching for traffic spikes 
 
+## Quickstart
+
+The following command will clone the Buckley repo and then deploy it to Google App Engine
+
+ $ git clone git://github.com/nikcub/Buckley.git
+ $ cd Buckley
+ $ appcfg.py -A myappname update .
+
 ## Install
 
 Get the App Engine SDK:
@@ -98,3 +106,38 @@ This should be before the default route.
 
 ## Templates
 
+
+## Issues
+
+Have a bug? Please create an issue here on GitHub!
+
+https://github.com/nikcub/buckley/issues
+
+Please be as descriptive as you can, including pasting error and exception logs if you have them.
+
+## Versioning
+
+For transparency and insight into our release cycle, releases will be numbered with the follow format:
+
+`<major>.<minor>.<patch>`
+
+And constructed with the following guidelines:
+
+* Breaking backwards compatibility bumps the major
+* New additions without breaking backwards compatibility bumps the minor
+* Bug fixes and misc changes bump the patch
+
+For more information on semantic versioning, please visit http://semver.org/.
+
+## Authors
+
+**Nik Cubrilovic**
+
++ http://nikcub.appspot.com
++ http://github.com/nikcub
+
+## License
+
+Copyright 2011 Nik Cubrilovic.
+
+Licensed under a 2-clause BSD license: http://nikcub.appspot.com/bsd-license
