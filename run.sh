@@ -5,7 +5,7 @@
 # @TODO proper virtualenv support
 
 DS=".data/nikcub.datastore"
-DH=".data/datastore.history"
+DH=".data/buckley.history"
 BS=".data/blobstore"
 IP=$2
 PORT=$1
