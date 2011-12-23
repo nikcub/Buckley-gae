@@ -22,15 +22,18 @@
   :copyright: Copyright (C) 2011 Nik Cubrilovic and others, see AUTHORS
   :license: new BSD, see LICENSE for more details.
 """
+from __future__ import division
 
 __version__ = '0.0.1'
 __author__ = 'Nik Cubrilovic <nikcub@gmail.com>'
 
+
+
 import sys
+import math
 import datetime
 import logging
 import sketch
-
 from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.api import memcache
@@ -47,8 +50,8 @@ class Image(sketch.db.Model):
 class Source(sketch.db.Model):
   name = db.StringProperty()
   icon = db.ReferenceProperty(Image)
-  web = db.LinkProperty()
-  feed = db.LinkProperty()
+  web = db.StringProperty()
+  feed = db.StringProperty()
 
   @classmethod
   def get_by_web(self, url):
@@ -124,7 +127,19 @@ class Post(sketch.db.Model):
   @property
   def get_thumbnail(self):
     if self.thumbnail:
-      return "<img src='%s' class='thumb' width='%d' height='%d'>" % (self.thumbnail.origurl, self.thumbnail.width, self.thumbnail.height)
+      classes = "thumb"
+      w = self.thumbnail.width
+      h = self.thumbnail.height
+      # 1247 × 841
+      if w > 640:
+        w = 640
+        h = int(math.floor((640 / self.thumbnail.width) * self.thumbnail.height))
+        classes += " fullthumb"
+        logging.info(640 / self.thumbnail.width)
+        logging.info((640 / self.thumbnail.width) * self.thumbnail.height)
+        logging.info("orig height: %d new width: %d" % (self.thumbnail.width, self.thumbnail.height))
+        logging.info("new height: %d new width: %d" % (w, h))
+      return "<img src='%s' class='%s' width='%d' height='%d'>" % (self.thumbnail.origurl, classes, w, h)
     return ''
 
   @property
