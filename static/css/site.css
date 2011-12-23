@@ -2510,3 +2510,14 @@ img.thumb {
 h5 > a {
   color: black;
 }
+.thumb {
+  margin: 0;
+}
+.thumbfull {
+  display: inline;
+  float: left;
+  margin-left: 20px;
+  width: 640px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
