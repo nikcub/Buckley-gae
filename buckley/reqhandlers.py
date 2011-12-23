@@ -103,6 +103,10 @@ class AdminController(BaseController):
   def is_admin():
     return users
 
+  def valid_stub(self, stub):
+    stub_match=re.compile(r'[^a-z0-9-]').search
+    return not bool(stub_match(stub))
+    
   def slugify(self, value):
     value = re.sub('[^\w\s-]', '', value).strip().lower()
     return re.sub('[-\s]+', '-', value)
