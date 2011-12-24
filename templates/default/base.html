@@ -53,7 +53,7 @@
 	<footer>
 		<p>&copy; 2011 {{ buckley.owner|e }} | 
 			{% if user.loggedin %}
-				@{{ user.nickname|e }} <a href="{{ user.logout }}" alt="login" rel="nofollow">Logout</a>
+				{{ user.nickname|e }} | <a href="/admin">Admin</a> | <a href="{{ user.logout }}" alt="login" rel="nofollow">Logout</a>
 			{% else %}
 				<a href="{{ user.login }}" alt="login" rel="nofollow">Login</a>
 			{% endif %}
