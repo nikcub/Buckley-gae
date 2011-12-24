@@ -57,7 +57,7 @@ def get_content_type(req_headers):
 def discover_og(content):
   d = BeautifulSoup(content)
   t = d.findAll('meta', property=re.compile('^og:'))
-  
+
 def find_icons(url):
   result = urlfetch.fetch(url)
   if result.status_code != 200:
@@ -67,7 +67,7 @@ def find_icons(url):
   t = d.findAll('link', rel=re.compile('icon'))
   
   if not t:
-    t = = d.findAll('meta', property=re.compile('^og:image'))
+    t = d.findAll('meta', property=re.compile('^og:image'))
   
   if not t:
     return False
