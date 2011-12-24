@@ -54,6 +54,10 @@ def get_content_type(req_headers):
 
   return content_type, content_charset
 
+def discover_og(content):
+  d = BeautifulSoup(content)
+  t = d.findAll('meta', property=re.compile('^og:'))
+  
 def find_icons(url):
   result = urlfetch.fetch(url)
   if result.status_code != 200:
@@ -63,11 +67,17 @@ def find_icons(url):
   t = d.findAll('link', rel=re.compile('icon'))
   
   if not t:
+    t = = d.findAll('meta', property=re.compile('^og:image'))
+  
+  if not t:
     return False
+    
   icons = []
   for i in t:
     if i.has_key('href'):
       return i['href']
+    if i.has_key('content'):
+      return i['content']      
   return None
   # return icons
   
