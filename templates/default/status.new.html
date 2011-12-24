@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Statuses <small><a href="/feed/microblog">feed</a></small></h1>
+{% for status in statuses %}
+	<article class="status clearfix span11"> 
+
+		
+		{% if status.has_thumbnail %}
+		<div class="feature_status">
+			<!-- <div style="position: relative; background-repeat: none; background: url({{ status.thumbnail.origurl }}); width: 640px; height: {{ status.thumbnail.scaled_height() }}px; background-size: 640px;"> -->
+			<img src="{{ status.thumbnail.origurl }}" width="640">
+			<h2><span><a href="{{ status.url }}">{{ status.title }}</a></span></h2>
+			<div class="content"><span>{{ status.get_excerpt }}</span></div>
+			
+			<!-- <div style="position: absolute; bottom: 0; left: 0.5em; width: 640px; font-weight: bold; color: #fff;">
+				<p><b>{{ status.title }}</b></p>
+				{% if status.has_excerpt %}
+					<p>{{ status.get_excerpt }}</p>
+				{% endif %}
+			</div> -->
+		</div>
+		{% endif %}
+		
+	</article>
+{% endfor %}
+{% endblock %}

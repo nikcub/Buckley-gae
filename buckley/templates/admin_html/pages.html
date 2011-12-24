@@ -42,6 +42,7 @@
 	</header>
 	<p>
 		<form method="post" action="/admin/pages" id="admin_edit">
+			<input type="hidden" name="ptype" value="page"/><br />
 			<input type="text" name="title" /><br />
 			<textarea name="content"></textarea><br />
 			<input type="hidden" name="post_type" value="{{ post_type }}">

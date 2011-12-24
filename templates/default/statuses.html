@@ -4,7 +4,7 @@
 	<h1>Statuses <small><a href="/feed/microblog">feed</a></small></h1>
 {% for status in statuses %}
 	<article class="status clearfix span11"> 
-		<header> 
+		<header class=""> 
 			<h5>
 			{% if status.content_link_src.icon %}
 				<a href="{{ status.content_link_src.web }}"><img src="{{ status.content_link_src.icon.origurl }}" width="16" height="16"></a>

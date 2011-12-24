@@ -2500,6 +2500,18 @@ button.btn::-moz-focus-inner, input[type=submit].btn::-moz-focus-inner {
   position: relative;
   margin-bottom: 10px;
 }
+.main {
+  display: inline;
+  float: left;
+  margin-left: 20px;
+  width: 640px;
+}
+.sidebar {
+  display: inline;
+  float: left;
+  margin-left: 20px;
+  width: 160px;
+}
 footer {
   text-align: center;
 }
@@ -2520,4 +2532,56 @@ h5 > a {
   width: 640px;
   margin-left: 0px;
   margin-right: 0px;
+}
+.thumbtextbottom {
+  position: absolute;
+  bottom: 0;
+  left: 0.5em;
+  width: 400px;
+  font-weight: bold;
+  color: #fff;
+}
+.feature_status {
+  position: relative;
+  width: 100%;
+  /* for IE 6 */
+
+}
+.feature_status h2 {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  width: 100%;
+}
+.feature_status h2 span {
+  color: white;
+  font: bold 24px/45px Helvetica, Sans-Serif;
+  letter-spacing: -1px;
+  background: #000000;
+  /* fallback color */
+
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  padding-left: 35px;
+}
+.feature_status h2 span.spacer {
+  padding: 0 5px;
+}
+.feature_status .content {
+  position: absolute;
+  bottom: 50px;
+  left: 10px;
+  width: 100%;
+  color: white;
+  font: normal 12px/20px Helvetica, Sans-Serif;
+  letter-spacing: -1px;
+  background: #000000;
+  /* fallback color */
+
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  padding-left: 35px;
+}
+.feature_status .content.spacer {
+  padding: 0 5px;
 }

@@ -11,6 +11,7 @@ from google.appengine.ext import db
 from buckley.models import Post, Image, Source
 from sketch.util.feeds import find_icons, discover_feeds
 from sketch.vendor.embedly import Embedly
+from sketch.vendor.diffbot import DiffBot
 from sketch.vendor.markdown import markdown
 
 class Index(buckley.AdminController):
@@ -34,6 +35,15 @@ class Statuses(buckley.AdminController):
         status = Post.get_single_by_key(key)
         status.delete()
         return self.redirect_back('deleted')
+      if action == 'db':
+        link = "http://www.betabeat.com/2011/12/23/exclusive-leaked-details-of-how-facebook-plans-to-sell-your-timeline-to-advertisers/"
+        logging.info('running db : %s' % link)
+        db = DiffBot(dev_token=self.config.diffbot_token)
+        r = db.get_article(link)
+        logging.info(r)
+        _embedly = Embedly(dev_token=self.config.embedly_key)
+        _e = _embedly.get_embed(link)
+        logging.info(_e)
       return self.redirect_back('noaction')
     posts = Post.get_statuses(num=100, cached=False)
     self.render('statuses', {
@@ -156,9 +166,11 @@ class Posts(buckley.AdminController):
   def get(self, action=None, key=None):
     if action:
       if action == 'edit' and key:
-        posts = Post.get_single_by_key(key)
+        post = Post.get_single_by_key(key)        
+        if not post:
+          raise NotFound()
         self.render('posts.edit', {
-          'post': posts,
+          'post': post,
           'post_type': 'post'
         })
       elif action == 'new':
@@ -167,10 +179,12 @@ class Posts(buckley.AdminController):
         })
       elif action == 'publish':
         post = Post.get_single_by_key(key)
+        if not post:
+          raise NotFound()        
         post.publish()
         return self.redirect_back()
       else:
-        self.redirect_back()
+        raise NotFound()  
     else:
       posts = Post.get_posts(num=100, cached=False)
       self.render('posts', {
@@ -180,22 +194,42 @@ class Posts(buckley.AdminController):
 
   def post(self, action=False, key=False):    
     title = self.request.get('title', "").encode('ascii', 'ignore')
+    stub = self.request.get('stub', "").encode('ascii', 'ignore')
     subtitle = self.request.get('subtitle', "").encode('ascii', 'ignore')
     content = self.request.get('content', "").encode('ascii', 'ignore')
     ptype = self.request.get('ptype', "post")
     cached = self.request.get_checkbox('cached')
     featured = self.request.get_checkbox('featured')
+    html = ""
+    excerpt = ""
+    excerpt_html = ""
     
     if not title or not content or not ptype:
       return self.redirect_back()
 
+    if not stub:
+      stub = self.slugify(title)
+
+    if not self.valid_stub(stub):
+      return self.redirect_back('invalid_stub')
+
     try:
       excerpt = self.extract_excerpt(content)
-      excerpt_html = markdown(excerpt)
+      if excerpt:
+        excerpt_html = markdown(excerpt)
+      else:
+        excerpt_html = ""
+        
+      logging.info("Posted with:")
+      logging.info(" title: %s" % title)
+      logging.info(" content: %s" % content)
+      logging.info(" excerpt: %s" % excerpt)
+      logging.info(" excerpt_html: %s" % excerpt_html)
+
       html = markdown(content.replace("--", '', 1))
     except Exception, e:
       logging.exception(e)
-      raise e
+      # raise e
       
     if action == 'edit' and key:
       post = Post.get_single_by_key(key)
@@ -236,9 +270,10 @@ class Posts(buckley.AdminController):
         categories = categories,
         featured = featured,
         cached = cached,
-        stub = self.slugify(title)
+        stub = stub
       )
       r = post.put()
+      logging.info("Saved post with id %s" % str(r))
       self.redirect('/admin/%s/edit/%s' % (ptype, str(r)))
 
 class Pages(buckley.AdminController):

@@ -18,7 +18,7 @@ class StatusIndex(buckley.BaseController):
       statuses = [buckley.models.Post.get_single_by_key(key)]
     else:
       statuses = buckley.models.Post.get_statuses(num=50, cached=False)
-    return self.render('statuses', {
+    return self.render('status.new', {
       'statuses': statuses,
       'tab_status': True
     })

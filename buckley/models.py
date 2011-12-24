@@ -46,6 +46,21 @@ class Image(sketch.db.Model):
   size = db.IntegerProperty()
   width = db.IntegerProperty()
   height = db.IntegerProperty()
+  
+  def get_scaled(self, maxwidth=640):
+    w = self.width
+    h = self.height
+    if w > maxwidth:
+      w = maxwidth
+      h = int(math.floor((maxwidth / self.width) * self.height))
+    return w, h
+        
+  def scaled_width(self, height=640):
+    w, h = self.get_scaled(height)
+    return w
+    
+  def scaled_height(self, width=640):
+    return int(math.floor((width / self.width) * self.height))
 
 class Source(sketch.db.Model):
   name = db.StringProperty()
@@ -128,17 +143,7 @@ class Post(sketch.db.Model):
   def get_thumbnail(self):
     if self.thumbnail:
       classes = "thumb"
-      w = self.thumbnail.width
-      h = self.thumbnail.height
-      # 1247 × 841
-      if w > 640:
-        w = 640
-        h = int(math.floor((640 / self.thumbnail.width) * self.thumbnail.height))
-        classes += " fullthumb"
-        logging.info(640 / self.thumbnail.width)
-        logging.info((640 / self.thumbnail.width) * self.thumbnail.height)
-        logging.info("orig height: %d new width: %d" % (self.thumbnail.width, self.thumbnail.height))
-        logging.info("new height: %d new width: %d" % (w, h))
+      w, h = self.thumbnail.get_scaled(640)
       return "<img src='%s' class='%s' width='%d' height='%d'>" % (self.thumbnail.origurl, classes, w, h)
     return ''
 

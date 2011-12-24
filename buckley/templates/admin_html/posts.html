@@ -61,12 +61,19 @@
 				</div>
 			</div>
 			<div class="clearfix">
+				<label for="title">Stub</label>
+				<div class="input">
+					<input type="text" name="stub" class="span11">
+				</div>
+			</div>			
+			<div class="clearfix">
 				<label for="title">Content</label>
 				<div class="input">
 					<textarea name="content" rows="15" class="span11"></textarea>
 				</div>
 			</div>
 			<div class="actions">
+				<input type="hidden" name="ptype" value="{{ post_type }}">
 				<button type="submit" name="action" value="save" class="btn primary">save</button>
 				<button type="submit" name="action" value="publish" class="btn success">publish</button>
        </div>
